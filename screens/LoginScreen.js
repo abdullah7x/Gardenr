@@ -1,17 +1,24 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { TextInput, TouchableOpacity } from "react-native-web";
-import { auth } from "../firebase2";
+import { TextInput, TouchableOpacity } from "react-native";
+import { auth, db } from "../firebase2";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
+import { collection, addDoc } from "firebase/firestore";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  //   const [email, setEmail] = useState("");
+  //   const [password, setPassword] = useState("");
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+    phoneNo: "",
+    isGardener: "",
+  });
 
   const navigation = useNavigation();
 
@@ -25,14 +32,50 @@ const LoginScreen = () => {
     return unsubscribe;
   }, []);
 
+  const handleChange = (text, event) => {
+    setValues((prev) => {
+      return { ...prev, [event]: text };
+    });
+  };
+
   const handleSignUp = () => {
+    const { email, password, phoneNo, isGardener } = values;
     const auth = getAuth();
+    //Create Auth user w email and password
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log(user.email);
         // ...
+        //Create DB user with more details
+        if (isGardener === "no") {
+          try {
+            addDoc(collection(db, "clients"), {
+              email,
+              password,
+              phoneNo,
+              isGardener,
+            }).then((docData) => {
+              console.log("Document written with ID: ", docData.id);
+            });
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        } else {
+          try {
+            addDoc(collection(db, "gardeners"), {
+              email,
+              password,
+              phoneNo,
+              isGardener,
+            }).then((docData) => {
+              console.log("Document written with ID: ", docData.id);
+            });
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -42,19 +85,13 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
+    const { email, password } = values;
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user, "existing user");
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(error.message);
-      });
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(error.message);
+    });
   };
 
   return (
@@ -62,16 +99,28 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={(text) => handleChange(text, "email")}
           style={styles.input}
         />
         <TextInput
           placeholder="password"
-          value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={(text) => handleChange(text, "password")}
           style={styles.input}
           secureTextEntry
+        />
+        <TextInput
+          placeholder="phone number"
+          onChangeText={(text) => {
+            handleChange(text, "phoneNo");
+          }}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="gardener?"
+          onChangeText={(text) => {
+            handleChange(text, "isGardener");
+          }}
+          style={styles.input}
         />
       </View>
       <View style={styles.buttonContainer}>
