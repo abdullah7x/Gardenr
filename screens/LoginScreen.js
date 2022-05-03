@@ -17,7 +17,9 @@ const LoginScreen = () => {
     email: "",
     password: "",
     phoneNo: "",
+    location: "",
     isGardener: "",
+    username: "",
   });
 
   const navigation = useNavigation();
@@ -39,14 +41,14 @@ const LoginScreen = () => {
   };
 
   const handleSignUp = () => {
-    const { email, password, phoneNo, isGardener } = values;
+    const { email, password, phoneNo, isGardener, location, username } = values;
     const auth = getAuth();
     //Create Auth user w email and password
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user.email);
+
         // ...
         //Create DB user with more details
         if (isGardener === "no") {
@@ -56,6 +58,8 @@ const LoginScreen = () => {
               password,
               phoneNo,
               isGardener,
+              location,
+              username,
             }).then((docData) => {
               console.log("Document written with ID: ", docData.id);
             });
@@ -69,6 +73,8 @@ const LoginScreen = () => {
               password,
               phoneNo,
               isGardener,
+              location,
+              username,
             }).then((docData) => {
               console.log("Document written with ID: ", docData.id);
             });
@@ -109,12 +115,27 @@ const LoginScreen = () => {
           secureTextEntry
         />
         <TextInput
+          placeholder="username"
+          onChangeText={(text) => {
+            handleChange(text, "username");
+          }}
+          style={styles.input}
+        />
+        <TextInput
           placeholder="phone number"
           onChangeText={(text) => {
             handleChange(text, "phoneNo");
           }}
           style={styles.input}
         />
+        <TextInput
+          placeholder="location"
+          onChangeText={(text) => {
+            handleChange(text, "location");
+          }}
+          style={styles.input}
+        />
+
         <TextInput
           placeholder="gardener?"
           onChangeText={(text) => {
