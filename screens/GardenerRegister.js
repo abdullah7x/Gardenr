@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc } from "firebase/firestore";
 
 const GardenerRegister = () => {
   const [values, setValues] = useState({
@@ -52,7 +52,7 @@ const GardenerRegister = () => {
         //Create DB user with more details
         {
           try {
-            addDoc(collection(db, "gardeners"), {
+            setDoc(collection(db, "gardeners", email), {
               email,
               password,
               phoneNo,

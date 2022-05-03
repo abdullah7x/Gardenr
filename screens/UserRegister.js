@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 
 const UserRegister = () => {
   const [values, setValues] = useState({
@@ -39,15 +39,13 @@ const UserRegister = () => {
         //Create DB user with more details
         {
           try {
-            addDoc(collection(db, "clients"), {
+            setDoc(doc(db, "clients", email), {
               email,
               password,
               phoneNo,
               isGardener,
               name,
               friends,
-            }).then((docData) => {
-              console.log("Document written with ID: ", docData.id);
             });
           } catch (e) {
             console.error("Error adding document: ", e);
