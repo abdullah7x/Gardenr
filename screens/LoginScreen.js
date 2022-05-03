@@ -8,7 +8,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");
@@ -28,66 +28,40 @@ const LoginScreen = () => {
     const auth = getAuth();
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("Home");
+        const q = query(
+          collection(db, "gardeners"),
+          where("email", "==", user.auth.currentUser.email)
+        );
+        getDocs(q).then((snapshot) => {
+          if (snapshot.docs.length === 1) {
+            navigation.navigate("Gardener Home");
+          } else {
+            const q2 = query(
+              collection(db, "clients"),
+              where("email", "==", user.auth.currentUser.email)
+            );
+            getDocs(q2).then((snap) => {
+              if (snap.docs.length === 1) {
+                navigation.navigate("Client Home", { paramKey: values.email });
+              }
+            });
+          }
+        });
+
+        // navigation.navigate("Home");
       }
     });
     return unsubscribe;
   }, []);
 
+  const handleReg = () => {
+    navigation.navigate("RegisterButtons");
+  };
+
   const handleChange = (text, event) => {
     setValues((prev) => {
       return { ...prev, [event]: text };
     });
-  };
-
-  const handleSignUp = () => {
-    const { email, password, phoneNo, isGardener, location, username } = values;
-    const auth = getAuth();
-    //Create Auth user w email and password
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-
-        // ...
-        //Create DB user with more details
-        if (isGardener === "no") {
-          try {
-            addDoc(collection(db, "clients"), {
-              email,
-              password,
-              phoneNo,
-              isGardener,
-              location,
-              username,
-            }).then((docData) => {
-              console.log("Document written with ID: ", docData.id);
-            });
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-        } else {
-          try {
-            addDoc(collection(db, "gardeners"), {
-              email,
-              password,
-              phoneNo,
-              isGardener,
-              location,
-              username,
-            }).then((docData) => {
-              console.log("Document written with ID: ", docData.id);
-            });
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
   };
 
   const handleLogin = () => {
@@ -114,45 +88,16 @@ const LoginScreen = () => {
           style={styles.input}
           secureTextEntry
         />
-        <TextInput
-          placeholder="username"
-          onChangeText={(text) => {
-            handleChange(text, "username");
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="phone number"
-          onChangeText={(text) => {
-            handleChange(text, "phoneNo");
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="location"
-          onChangeText={(text) => {
-            handleChange(text, "location");
-          }}
-          style={styles.input}
-        />
-
-        <TextInput
-          placeholder="gardener?"
-          onChangeText={(text) => {
-            handleChange(text, "isGardener");
-          }}
-          style={styles.input}
-        />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={handleSignUp}
+          onPress={handleReg}
           style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>Register</Text>
+          <Text style={styles.buttonOutlineText}>Not yet registered?</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

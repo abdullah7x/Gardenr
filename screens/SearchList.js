@@ -1,13 +1,7 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
-import { TextInput, TouchableOpacity } from "react-native";
 import { auth, db } from "../firebase2";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { useNavigation } from "@react-navigation/core";
+
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 const SearchList = ({ route }) => {

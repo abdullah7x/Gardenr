@@ -3,8 +3,10 @@ import { useNavigation } from "@react-navigation/core";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../firebase2";
 
-const HomeScreen = () => {
+const HomeScreen = ({ route }) => {
   const navigation = useNavigation();
+
+  const { paramKey } = route.params;
 
   const handleSignOut = () => {
     auth
@@ -23,7 +25,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Text>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Sign out</Text>
+        <Text style={styles.buttonText}>Sign out {paramKey}</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleSearch} style={styles.button}>
         <Text style={styles.buttonText}>Search</Text>
