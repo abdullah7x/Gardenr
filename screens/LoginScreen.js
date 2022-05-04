@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+import getLatLong from "./GeoCodeSpike";
 
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");
@@ -65,6 +66,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
+    getLatLong();
     const { email, password } = values;
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password).catch((error) => {

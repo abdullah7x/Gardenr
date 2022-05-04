@@ -11,6 +11,8 @@ import RegisterButtons from "./screens/RegisterButtons";
 import GardenerRegister from "./screens/GardenerRegister";
 import UserRegister from "./screens/UserRegister";
 import GardenerHome from "./screens/GardenerHome";
+import ViewDetailsScreen from "./screens/ViewDetailsScreen";
+import EditDetailsScreen from "./screens/EditDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,8 +30,9 @@ export default function App() {
         <Stack.Screen name="SearchList" component={SearchList} />
         <Stack.Screen name="Gardener Register" component={GardenerRegister} />
         <Stack.Screen name="User Register" component={UserRegister} />
-        <Stack.Screen name="Gardener Home" component={GardenerHome} />
+        <Stack.Screen name="Gardener Home" component={ViewDetailsScreen} />
         <Stack.Screen name="Client Home" component={HomeScreen} />
+        <Stack.Screen name="EditDetails" component={EditDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
