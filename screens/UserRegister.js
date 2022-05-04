@@ -39,7 +39,7 @@ const UserRegister = () => {
         //Create DB user with more details
         {
           try {
-            setDoc(doc(db, "clients", email), {
+            addDoc(collection(db, "clients"), {
               email,
               password,
               phoneNo,

@@ -52,7 +52,7 @@ const GardenerRegister = () => {
         //Create DB user with more details
         {
           try {
-            setDoc(collection(db, "gardeners", email), {
+            addDoc(collection(db, "gardeners"), {
               email,
               password,
               phoneNo,
@@ -62,8 +62,6 @@ const GardenerRegister = () => {
               availability,
               companyName,
               friends,
-            }).then((docData) => {
-              console.log("Document written with ID: ", docData.id);
             });
           } catch (e) {
             console.error("Error adding document: ", e);
