@@ -36,15 +36,19 @@ const EditDetailsScreen = ({ route }) => {
     availability: "",
     companyName: "",
   });
+
   console.log(values, "vals");
+  
   useEffect(() => {
     setValues({ ...currDetails });
   }, []);
+
   const handleChange = (text, event) => {
     setValues((prev) => {
       return { ...prev, [event]: text };
     });
   };
+
   const restoreDetails = () => {
     console.log("restore");
     setCurrDetails({ ...currDetails });
