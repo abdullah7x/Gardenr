@@ -9,9 +9,18 @@ import {
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import SelectBox from "react-native-multi-selectbox";
+import { xorBy } from "lodash";
 
 const SearchScreen = (props) => {
   const [locationSearch, setLocationSearch] = useState("");
+
+  const jobTypes = [
+    { item: "Mow lawn", id: "MOW" },
+    { item: "Trim headge", id: "TRIM" },
+    { item: "Landscaping", id: "SCAPE" },
+  ];
+  const [selectedJobs, setSelectedJobs] = useState([]);
   const navigation = useNavigation();
 
   const handleChange = (searchValue) => {
@@ -22,6 +31,18 @@ const SearchScreen = (props) => {
     navigation.navigate("SearchList", { paramKey: locationSearch });
   };
 
+  const onMultiChange = () => {
+    // setSelectedJobs((currJobs) => {
+    //   return [...currJobs, value];
+    // });
+    return (value) => setSelectedJobs(xorBy(selectedJobs, [value], "id"));
+  };
+
+  // const onDeselect = (value) => {
+  //   console.log(value);
+  // };
+
+  console.log(selectedJobs, "CURR JOBS");
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
@@ -31,6 +52,18 @@ const SearchScreen = (props) => {
           style={styles.input}
         />
       </View>
+
+      <View style={styles.inputContainer}>
+        <SelectBox
+          label="Select job types"
+          options={jobTypes}
+          selectedValues={selectedJobs}
+          onMultiSelect={onMultiChange()}
+          onTapClose={onMultiChange()}
+          isMulti
+        />
+      </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleSearch} style={styles.button}>
           <Text style={styles.buttonText}>Search</Text>
@@ -50,6 +83,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
+    padding: 20,
   },
   input: {
     backgroundColor: "white",
@@ -57,6 +91,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
+  },
+  multiselect: {
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 15,
   },
   buttonContainer: {
     width: "60%",

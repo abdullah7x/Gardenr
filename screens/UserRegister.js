@@ -60,47 +60,43 @@ const UserRegister = () => {
   };
 
   return (
-    <View>
-      <Text>Register as a new user</Text>
-
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="email"
-            onChangeText={(text) => handleChange(text, "email")}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="password"
-            onChangeText={(text) => handleChange(text, "password")}
-            style={styles.input}
-            secureTextEntry
-          />
-          <TextInput
-            placeholder="name"
-            onChangeText={(text) => {
-              handleChange(text, "name");
-            }}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="phone number"
-            onChangeText={(text) => {
-              handleChange(text, "phoneNo");
-            }}
-            style={styles.input}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={handleSignUp}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Register</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </View>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="email"
+          onChangeText={(text) => handleChange(text, "email")}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="password"
+          onChangeText={(text) => handleChange(text, "password")}
+          style={styles.input}
+          secureTextEntry
+        />
+        <TextInput
+          placeholder="name"
+          onChangeText={(text) => {
+            handleChange(text, "name");
+          }}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="phone number"
+          onChangeText={(text) => {
+            handleChange(text, "phoneNo");
+          }}
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={handleSignUp}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Register</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
