@@ -1,7 +1,7 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/core";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { auth } from "../firebase2";
+import React from 'react';
+import { useNavigation } from '@react-navigation/core';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { auth } from '../firebase2';
 
 const HomeScreen = ({ route }) => {
   const navigation = useNavigation();
@@ -12,13 +12,13 @@ const HomeScreen = ({ route }) => {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login");
+        navigation.replace('Login');
       })
       .catch((error) => alert(error.message));
   };
 
   const handleSearch = () => {
-    navigation.navigate("Search");
+    navigation.navigate('Search');
   };
 
   return (
@@ -39,20 +39,20 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   button: {
-    backgroundColor: "green",
-    width: "60%",
+    backgroundColor: 'green',
+    width: '60%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 40,
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
 });
