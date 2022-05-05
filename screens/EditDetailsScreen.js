@@ -65,7 +65,7 @@ const EditDetailsScreen = ({ route }) => {
         postCode,
         availability,
         companyName,
-      });
+      } ,{ merge: true });
       // .then((docData) => {
       //   console.log("ID of updated document: ", docData.id);
       // });
