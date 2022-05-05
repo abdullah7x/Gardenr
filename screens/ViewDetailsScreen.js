@@ -12,13 +12,17 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 const ViewDetailsScreen = () => {
+
   const [currDetails, setCurrDetails] = useState({});
+ 
   const navigation = useNavigation();
   const navEditDetails = () => {
     navigation.navigate("EditDetails", {
       currDetails,
+      setCurrDetails,
     });
   };
+
   const colRef = collection(db, "gardeners");
   const q = query(colRef, where("email", "==", auth.currentUser.email));
   useEffect(() => {
@@ -26,25 +30,34 @@ const ViewDetailsScreen = () => {
       setCurrDetails({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
     });
   }, []);
-  //console.log(currDetails,"current details")
-  // const docRef = doc(db, "clients", currDocID)
-  // getDoc(docRef)
-  // .then((userDoc) => {
-  //   console.log(userDoc.data(), userDoc.id);
-  // }
-  // )
-  //console.log(auth.currentUser);
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
     <View style={styles.container}>
+
       <Text>Company Name: {currDetails?.companyName}</Text>
       <Text>Name: {currDetails?.name}</Text>
       <Text>Location: {currDetails?.postCode}</Text>
       <Text>Availability: {currDetails?.availability}</Text>
       <Text>Email: {currDetails?.email}</Text>
       <Text>Phone number: {currDetails?.phoneNo}</Text>
+
       <TouchableOpacity onPress={navEditDetails} style={styles.button}>
         <Text style={styles.buttonText}>Edit details</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={handleSignOut} style={styles.button}>
+        <Text style={styles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
+      
     </View>
   );
 };
