@@ -12,13 +12,17 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 const ViewDetailsScreen = () => {
+
   const [currDetails, setCurrDetails] = useState({});
+ 
   const navigation = useNavigation();
   const navEditDetails = () => {
     navigation.navigate("EditDetails", {
       currDetails,
+      setCurrDetails,
     });
   };
+
   const colRef = collection(db, "gardeners");
   const q = query(colRef, where("email", "==", auth.currentUser.email));
   useEffect(() => {
@@ -26,6 +30,7 @@ const ViewDetailsScreen = () => {
       setCurrDetails({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
     });
   }, []);
+
   //console.log(currDetails,"current details")
   // const docRef = doc(db, "clients", currDocID)
   // getDoc(docRef)

@@ -20,8 +20,13 @@ import {
 } from "firebase/firestore";
 
 const EditDetailsScreen = ({ route }) => {
-  const { currDetails } = route.params;
+
+  const { currDetails, setCurrDetails } = route.params;
+
+  const navigation = useNavigation();
+
   console.log(currDetails, "original details");
+
   const [docId, setDocId] = useState("");
   const [values, setValues] = useState({
     email: "",
@@ -36,15 +41,15 @@ const EditDetailsScreen = ({ route }) => {
     setValues({ ...currDetails });
   }, []);
   const handleChange = (text, event) => {
-    console.log(text, "here");
     setValues((prev) => {
       return { ...prev, [event]: text };
     });
   };
   const restoreDetails = () => {
     console.log("restore");
-    setValues({ ...currDetails });
+    setCurrDetails({ ...currDetails });
   };
+
   useEffect(() => {
     const q2 = query(
       collection(db, "gardeners"),
@@ -54,6 +59,7 @@ const EditDetailsScreen = ({ route }) => {
       setDocId(snap.docs[0]._key.path.segments[6]);
     });
   }, []);
+
   const handleUpdate = () => {
     const { email, phoneNo, name, postCode, availability, companyName } =
       values;
@@ -65,14 +71,16 @@ const EditDetailsScreen = ({ route }) => {
         postCode,
         availability,
         companyName,
-      } ,{ merge: true });
-      // .then((docData) => {
-      //   console.log("ID of updated document: ", docData.id);
-      // });
+      } , { merge: true })
+      .then(() => {
+        setCurrDetails({...values})
+        navigation.navigate("Gardener Home");
+      })
     } catch (e) {
-      //console.error("Error updating document: ", e);
+      console.error("Error updating document: ", e);
     }
   };
+
   return (
     <View>
       <TextInput
