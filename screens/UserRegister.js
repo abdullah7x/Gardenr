@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native";
-import { auth, db } from "../firebase2";
+import { auth, db, app } from "../firebase2";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -19,6 +19,7 @@ const UserRegister = () => {
     isGardener: false,
     friends: [],
   });
+  const navigation = useNavigation();
 
   const handleChange = (text, event) => {
     setValues((prev) => {
@@ -28,12 +29,13 @@ const UserRegister = () => {
 
   const handleSignUp = () => {
     const { email, password, phoneNo, name, isGardener, friends } = values;
-    const auth = getAuth();
+    // const auth = getAuth();
     //Create Auth user w email and password
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.log(user, "NEW USER");
 
         // ...
         //Create DB user with more details
@@ -47,6 +49,7 @@ const UserRegister = () => {
               name,
               friends,
             });
+            navigation.navigate("Client Home", { paramKey: values.email });
           } catch (e) {
             console.error("Error adding document: ", e);
           }

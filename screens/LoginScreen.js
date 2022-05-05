@@ -6,10 +6,10 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import getLatLong from "./GeoCodeSpike";
 
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");
@@ -17,43 +17,51 @@ const LoginScreen = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
-    phoneNo: "",
-    location: "",
-    isGardener: "",
-    username: "",
   });
+  const [log, setLog] = useState(false);
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const q = query(
-          collection(db, "gardeners"),
-          where("email", "==", user.auth.currentUser.email)
-        );
-        getDocs(q).then((snapshot) => {
-          if (snapshot.docs.length === 1) {
-            navigation.navigate("Gardener Home");
-          } else {
-            const q2 = query(
-              collection(db, "clients"),
-              where("email", "==", user.auth.currentUser.email)
-            );
-            getDocs(q2).then((snap) => {
-              if (snap.docs.length === 1) {
-                navigation.navigate("Client Home", { paramKey: values.email });
-              }
-            });
-          }
-        });
+    // const auth = getAuth();
+    try {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        console.log(user, "IS A USER");
+        // console.log(user.auth.currentUser.email);
+        if (user) {
+          console.log("INSIDE HERE");
+          const q = query(
+            collection(db, "gardeners"),
+            where("email", "==", user.auth.currentUser.email)
+          );
+          getDocs(q).then((snapshot) => {
+            console.log(snapshot.docs[0], "SNAP1");
+            if (snapshot.docs.length === 1) {
+              navigation.navigate("Gardener Home");
+            } else {
+              const q2 = query(
+                collection(db, "clients"),
+                where("email", "==", user.auth.currentUser.email)
+              );
+              getDocs(q2).then((snap) => {
+                console.log(snapshot.docs[0], "SNAP2");
+                if (snap.docs.length === 1) {
+                  navigation.navigate("Client Home", {
+                    paramKey: values.email,
+                  });
+                }
+              });
+            }
+          });
 
-        // navigation.navigate("Home");
-      }
-    });
-    return unsubscribe;
-  }, []);
+          // navigation.navigate("Home");
+        }
+      });
+      return unsubscribe;
+    } catch (e) {
+      console.log(e, "error logging in");
+    }
+  }, [log]);
 
   const handleReg = () => {
     navigation.navigate("RegisterButtons");
@@ -66,14 +74,18 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
-    getLatLong();
     const { email, password } = values;
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(error.message);
-    });
+    // const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        console.log("IN HANDLE LOGIN");
+        setLog(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(error.message);
+      });
   };
 
   return (

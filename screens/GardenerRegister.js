@@ -63,6 +63,7 @@ const GardenerRegister = () => {
               companyName,
               friends,
             });
+            navigation.navigate("Gardener Home");
           } catch (e) {
             console.error("Error adding document: ", e);
           }
