@@ -12,9 +12,8 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 const ViewDetailsScreen = () => {
-
   const [currDetails, setCurrDetails] = useState({});
- 
+
   const navigation = useNavigation();
   const navEditDetails = () => {
     navigation.navigate("EditDetails", {
@@ -42,7 +41,6 @@ const ViewDetailsScreen = () => {
 
   return (
     <View style={styles.container}>
-
       <Text>Company Name: {currDetails?.companyName}</Text>
       <Text>Name: {currDetails?.name}</Text>
       <Text>Location: {currDetails?.postCode}</Text>
@@ -57,7 +55,6 @@ const ViewDetailsScreen = () => {
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>
         <Text style={styles.buttonText}>Sign Out</Text>
       </TouchableOpacity>
-      
     </View>
   );
 };

@@ -20,7 +20,6 @@ import {
 } from "firebase/firestore";
 
 const EditDetailsScreen = ({ route }) => {
-
   const { currDetails, setCurrDetails } = route.params;
 
   const navigation = useNavigation();
@@ -38,7 +37,7 @@ const EditDetailsScreen = ({ route }) => {
   });
 
   console.log(values, "vals");
-  
+
   useEffect(() => {
     setValues({ ...currDetails });
   }, []);
@@ -68,18 +67,21 @@ const EditDetailsScreen = ({ route }) => {
     const { email, phoneNo, name, postCode, availability, companyName } =
       values;
     try {
-      setDoc(doc(db, "gardeners", docId), {
-        email,
-        phoneNo,
-        name,
-        postCode,
-        availability,
-        companyName,
-      } , { merge: true })
-      .then(() => {
-        setCurrDetails({...values})
+      setDoc(
+        doc(db, "gardeners", docId),
+        {
+          email,
+          phoneNo,
+          name,
+          postCode,
+          availability,
+          companyName,
+        },
+        { merge: true }
+      ).then(() => {
+        setCurrDetails({ ...values });
         navigation.navigate("Gardener Home");
-      })
+      });
     } catch (e) {
       console.error("Error updating document: ", e);
     }
