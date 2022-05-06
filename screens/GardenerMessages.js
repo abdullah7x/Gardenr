@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { auth, db } from '../firebase2';
 import { ref } from 'firebase/database';
@@ -20,7 +21,7 @@ const GardenerMessages = () => {
   const [friends, setFriends] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [selectedUserData, setSelectedUserData] = useState({});
-  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   // set friends from database with listener that will update them each time a new one is added
   // find current user id
@@ -29,7 +30,7 @@ const GardenerMessages = () => {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     try {
       const q = query(
         collection(db, 'gardeners'),
@@ -53,6 +54,7 @@ const GardenerMessages = () => {
             );
             getDocs(q2).then((snapshot) => {
               setFriendsData((currFriends) => {
+                setLoading(false);
                 return [snapshot.docs[0].data(), ...currFriends];
               });
             });
@@ -72,33 +74,42 @@ const GardenerMessages = () => {
     });
   };
 
-  return friendsData.length ? (
-    <View style={styles.container}>
-      <FlatList
-        key={({ item }) => {
-          item.id;
-        }}
-        data={friendsData.map((friend) => {
-          return {
-            name: friend.name,
-            id: friend.email,
-          };
-        })}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => handleChat(item.id)}
-            style={styles.item}
-          >
-            <Text>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
-  ) : (
-    <View>
-      <Text>no friends</Text>
-    </View>
-  );
+  if (loading)
+    return (
+      <View style={styles.container}>
+        {' '}
+        <ActivityIndicator animating={true} color={Colors.green200} />{' '}
+      </View>
+    );
+  else {
+    return friendsData.length ? (
+      <View style={styles.container}>
+        <FlatList
+          key={({ item }) => {
+            item.id;
+          }}
+          data={friendsData.map((friend) => {
+            return {
+              name: friend.name,
+              id: friend.email,
+            };
+          })}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => handleChat(item.id)}
+              style={styles.item}
+            >
+              <Text>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    ) : (
+      <View>
+        <Text>No friends :(</Text>
+      </View>
+    );
+  }
 };
 
 export default GardenerMessages;
