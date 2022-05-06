@@ -4,11 +4,11 @@ import {
   View,
   KeyboardAvoidingView,
   Picker,
-} from "react-native";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
-import { ScrollView } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native";
-import { auth } from "./firebase2";
+} from 'react-native';
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { ScrollView } from 'react-native';
+import { TextInput, TouchableOpacity } from 'react-native';
+import { auth } from '../firebase2';
 import {
   addDoc,
   collection,
@@ -17,10 +17,10 @@ import {
   query,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { db } from "./firebase2";
-import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+} from 'firebase/firestore';
+import { db } from '../firebase2';
+import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const SingleGardener = ({ route }) => {
   const { gardener } = route.params;
@@ -40,19 +40,22 @@ const SingleGardener = ({ route }) => {
   useEffect(() => {
     // get chatdata
     const chatRef = query(
-      collection(db, "chatrooms"),
-      where("user1", "==", currentUser),
-      where("user2", "==", gardener.email)
+      collection(db, 'chatrooms'),
+      where('user1', '==', currentUser),
+      where('user2', '==', gardener.email)
     );
 
     getDocs(chatRef).then((snapshot) => {
-      if (snapshot.docs[0]) setChatData(snapshot.docs[0].data());
+      if (snapshot.docs[0]) {
+        setChatData(snapshot.docs[0].data());
+        setChatId(chatData.id);
+      }
     });
 
     // get user id
     const userRef = query(
-      collection(db, "clients"),
-      where("email", "==", currentUser)
+      collection(db, 'clients'),
+      where('email', '==', currentUser)
     );
 
     getDocs(userRef).then((snapshot) => {
@@ -63,8 +66,8 @@ const SingleGardener = ({ route }) => {
     // get gardener id
 
     const gardenerRef = query(
-      collection(db, "gardeners"),
-      where("email", "==", gardener.email)
+      collection(db, 'gardeners'),
+      where('email', '==', gardener.email)
     );
 
     getDocs(gardenerRef).then((snapshot) => {
@@ -75,7 +78,7 @@ const SingleGardener = ({ route }) => {
 
   const handleMessage = async () => {
     // add gardener to clients friends
-    const clientsRef = doc(db, "clients", currentUserId);
+    const clientsRef = doc(db, 'clients', currentUserId);
     if (
       currentUserData.friends?.length &&
       !currentUserData.friends.includes(gardener.email)
@@ -91,7 +94,7 @@ const SingleGardener = ({ route }) => {
 
     // add client to gardeners friends
 
-    const gardenerRef2 = doc(db, "gardeners", gardenerId);
+    const gardenerRef2 = doc(db, 'gardeners', gardenerId);
     if (
       gardenerData.friends?.length &&
       !gardenerData.friends.includes(currentUserData.email)
@@ -106,15 +109,15 @@ const SingleGardener = ({ route }) => {
     }
 
     if (!chatData.chatId && chatId === null) {
-      addDoc(collection(db, "chatrooms"), {
+      addDoc(collection(db, 'chatrooms'), {
         user1: currentUser,
         user2: gardener.email,
       }).then((snapshot) => {
         setChatId(snapshot.id);
-        updateDoc(doc(db, "chatrooms", snapshot.id), {
+        updateDoc(doc(db, 'chatrooms', snapshot.id), {
           chatId: snapshot.id,
         }).then(() => {
-          navigation.navigate("Chat", {
+          navigation.navigate('Chat', {
             currentUserId,
             currentUserData,
             gardenerEmail: gardener.email,
@@ -123,7 +126,7 @@ const SingleGardener = ({ route }) => {
         });
       });
     } else {
-      navigation.navigate("Chat", {
+      navigation.navigate('Chat', {
         currentUserId,
         currentUserData,
         gardenerEmail: gardener.email,
@@ -147,7 +150,7 @@ const SingleGardener = ({ route }) => {
           </Card.Content>
           <Card.Cover
             source={{
-              uri: "https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg",
+              uri: 'https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg',
             }}
           />
           <Card.Actions>
@@ -169,46 +172,46 @@ export default SingleGardener;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputContainer: {
-    width: "80%",
+    width: '80%',
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
   },
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 40,
   },
   button: {
-    backgroundColor: "green",
-    width: "100%",
+    backgroundColor: 'green',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginTop: 5,
-    borderColor: "green",
+    borderColor: 'green',
     borderWidth: 2,
   },
   buttonOutlineText: {
-    color: "green",
-    fontWeight: "700",
+    color: 'green',
+    fontWeight: '700',
     fontSize: 16,
   },
 });

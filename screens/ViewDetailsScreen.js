@@ -21,6 +21,10 @@ const ViewDetailsScreen = () => {
     navigation.navigate('GardenerMessages');
   };
 
+  const handleMap = () => {
+    navigation.navigate('Map');
+  };
+
   const navEditDetails = () => {
     navigation.navigate('EditDetails', {
       currDetails,
@@ -60,6 +64,10 @@ const ViewDetailsScreen = () => {
 
       <TouchableOpacity onPress={handleChat} style={styles.button}>
         <Text style={styles.buttonText}>Chat</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={handleMap} style={styles.button}>
+        <Text style={styles.buttonText}>Map</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={handleSignOut} style={styles.button}>

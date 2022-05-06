@@ -1,4 +1,9 @@
-import React, { useState, useCallback, useLayoutEffect } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useLayoutEffect,
+  useEffect,
+} from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { auth } from '../firebase2';
 import {
@@ -14,31 +19,50 @@ import { db } from '../firebase2';
 
 const Chat = ({ route }) => {
   const [messages, setMessages] = useState([]);
+  const isGardener = route.params.isGardener ? route.params.isGardener : false;
+  const { clientEmail } = route.params;
   const { currentUserId } = route.params;
   const { currentUserData } = route.params;
   const { gardenerEmail } = route.params;
   let chatId;
 
   useLayoutEffect(() => {
-    const q = query(
-      collection(db, 'chatrooms'),
-      where('user1', '==', auth.currentUser.email),
-      where('user2', '==', gardenerEmail)
-    );
+    let q;
+    if (isGardener) {
+      q = query(
+        collection(db, 'chatrooms'),
+        where('user1', '==', clientEmail),
+        where('user2', '==', auth.currentUser.email)
+      );
+    } else {
+      q = query(
+        collection(db, 'chatrooms'),
+        where('user1', '==', auth.currentUser.email),
+        where('user2', '==', gardenerEmail)
+      );
+    }
     getDocs(q)
       .then((snapshot) => {
         chatId = snapshot.docs[0]._key.path.segments[6];
-      })
-      .then(() => {
-        collection(db, 'chatrooms', chatId, 'messages');
+        collection(
+          db,
+          'chatrooms',
+          snapshot.docs[0]._key.path.segments[6],
+          'messages'
+        );
         const q2 = query(
-          collection(db, 'chatrooms', chatId, 'messages'),
+          collection(
+            db,
+            'chatrooms',
+            snapshot.docs[0]._key.path.segments[6],
+            'messages'
+          ),
           orderBy('createdAt', 'desc')
         );
 
-        const unsubscribe = onSnapshot(q2, (snapshot) =>
+        const unsubscribe = onSnapshot(q2, (snapshot2) =>
           setMessages(
-            snapshot.docs.map((doc) => ({
+            snapshot2.docs.map((doc) => ({
               _id: doc.data()._id,
               createdAt: doc.data().createdAt.toDate(),
               text: doc.data().text,
@@ -60,6 +84,7 @@ const Chat = ({ route }) => {
       GiftedChat.append(previousMessages, messages)
     );
     const { _id, createdAt, text, user } = messages[0];
+
     try {
       addDoc(collection(db, 'chatrooms', chatId, 'messages'), {
         _id,

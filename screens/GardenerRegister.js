@@ -1,33 +1,52 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
-import React, { useEffect, useState } from "react";
-import { TextInput, TouchableOpacity } from "react-native";
-import { auth, db } from "../firebase2";
+import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { TextInput, TouchableOpacity } from 'react-native';
+import { auth, db } from '../firebase2';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from "firebase/auth";
-import { useNavigation } from "@react-navigation/core";
-import { collection, addDoc, setDoc } from "firebase/firestore";
+} from 'firebase/auth';
+import { useNavigation } from '@react-navigation/core';
+import { collection, addDoc, setDoc } from 'firebase/firestore';
+import SelectBox from 'react-native-multi-selectbox';
+import { xorBy } from 'lodash';
 
 const GardenerRegister = () => {
   const [values, setValues] = useState({
-    email: "",
-    password: "",
-    phoneNo: "",
-    name: "",
-    postCode: "",
-    availability: "",
-    companyName: "",
+    email: '',
+    password: '',
+    phoneNo: '',
+    name: '',
+    postCode: '',
+    availability: '',
+    companyName: '',
     isGardener: true,
     friends: [],
   });
+  const [selectedJobs, setSelectedJobs] = useState([]);
+  const navigation = useNavigation();
+
+  const jobTypesList = [
+    { item: 'Basic maintanence', id: 'BASIC' },
+    { item: 'Green waste disposal', id: 'TRIM' },
+    { item: 'Landscaping', id: 'SCAPE' },
+    { item: 'Pest control', id: 'PEST' },
+    { item: 'Installation services', id: 'INSTALL' },
+    { item: 'Planting', id: 'PLANT' },
+    { item: 'Horticulture', id: 'HORT' },
+    { item: 'Tree surgery', id: 'TREE' },
+    { item: 'Irrigation', id: 'IRRI' },
+  ];
 
   const handleChange = (text, event) => {
     setValues((prev) => {
       return { ...prev, [event]: text };
     });
   };
+
+  console.log(selectedJobs, 'selected');
+  console.log(values.jobTypes, 'VALUES');
 
   const handleSignUp = () => {
     const {
@@ -37,10 +56,10 @@ const GardenerRegister = () => {
       name,
       isGardener,
       postCode,
-      availability,
       companyName,
       friends,
     } = values;
+
     const auth = getAuth();
     //Create Auth user w email and password
     createUserWithEmailAndPassword(auth, email, password)
@@ -52,20 +71,20 @@ const GardenerRegister = () => {
         //Create DB user with more details
         {
           try {
-            addDoc(collection(db, "gardeners"), {
+            addDoc(collection(db, 'gardeners'), {
               email,
               password,
               phoneNo,
               isGardener,
               name,
               postCode,
-              availability,
               companyName,
               friends,
+              selectedJobs,
             });
-            navigation.navigate("Gardener Home");
+            navigation.navigate('Gardener Home');
           } catch (e) {
-            console.error("Error adding document: ", e);
+            console.error('Error adding document: ', e);
           }
         }
       })
@@ -76,54 +95,95 @@ const GardenerRegister = () => {
       });
   };
 
+  const onMultiChange = () => {
+    return (value) => {
+      setSelectedJobs(xorBy(selectedJobs, [value], 'id'));
+      // handleChange(selectedJobs, 'jobTypes');
+    };
+  };
+
+  // const setJobsToValues = () => {
+  //   setValues((prev) => {
+  //     console.log(values.jobTypes, 'JOBS');
+  //     return { prev, jobTypes: selectedJobs };
+  //   });
+  // };
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="email"
-          onChangeText={(text) => handleChange(text, "email")}
+          placeholderTextColor="grey"
+          selectionColor="green"
+          onChangeText={(text) => handleChange(text, 'email')}
           style={styles.input}
         />
         <TextInput
           placeholder="password"
-          onChangeText={(text) => handleChange(text, "password")}
+          placeholderTextColor="grey"
+          selectionColor="green"
+          onChangeText={(text) => handleChange(text, 'password')}
           style={styles.input}
           secureTextEntry
         />
         <TextInput
           placeholder="name"
+          placeholderTextColor="grey"
+          selectionColor="green"
           onChangeText={(text) => {
-            handleChange(text, "name");
+            handleChange(text, 'name');
           }}
           style={styles.input}
         />
         <TextInput
           placeholder="company"
+          placeholderTextColor="grey"
+          selectionColor="green"
           onChangeText={(text) => {
-            handleChange(text, "companyName");
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="availability"
-          onChangeText={(text) => {
-            handleChange(text, "availability");
+            handleChange(text, 'companyName');
           }}
           style={styles.input}
         />
         <TextInput
           placeholder="post code"
+          placeholderTextColor="grey"
+          selectionColor="green"
           onChangeText={(text) => {
-            handleChange(text, "postCode");
+            handleChange(text, 'postCode');
           }}
           style={styles.input}
         />
         <TextInput
           placeholder="phone number"
+          placeholderTextColor="grey"
+          selectionColor="green"
           onChangeText={(text) => {
-            handleChange(text, "phoneNo");
+            handleChange(text, 'phoneNo');
           }}
           style={styles.input}
+        />
+
+        <SelectBox
+          label="Job types"
+          options={jobTypesList}
+          selectedValues={selectedJobs}
+          onMultiSelect={onMultiChange()}
+          onTapClose={onMultiChange()}
+          isMulti
+          labelStyle={{
+            marginTop: 20,
+            backgroundColor: 'white',
+            borderRadius: 3,
+            padding: 5,
+          }}
+          containerStyle={{
+            backgroundColor: 'white',
+            borderRadius: 3,
+            padding: 5,
+            color: 'green',
+          }}
+          selectedItemStyle={{ backgroundColor: 'green' }}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -143,46 +203,47 @@ export default GardenerRegister;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputContainer: {
-    width: "80%",
+    width: '80%',
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 10,
   },
+
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 40,
   },
   button: {
-    backgroundColor: "green",
-    width: "100%",
+    backgroundColor: 'green',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginTop: 5,
-    borderColor: "green",
+    borderColor: 'green',
     borderWidth: 2,
   },
   buttonOutlineText: {
-    color: "green",
-    fontWeight: "700",
+    color: 'green',
+    fontWeight: '700',
     fontSize: 16,
   },
 });

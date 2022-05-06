@@ -1,102 +1,116 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, FlatList } from 'react-native';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { View, FlatList, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { StyleSheet } from 'react-native';
 import { auth, db } from '../firebase2';
 import { ref } from 'firebase/database';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
+import { TouchableOpacity } from 'react-native';
 
 const GardenerMessages = () => {
   const currentUser = auth.currentUser.email;
+  const [currentUserData, setCurrentUserData] = useState({});
   const [friends, setFriends] = useState([]);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [friendsData, setFriendsData] = useState([]);
+  const [selectedUserData, setSelectedUserData] = useState({});
   const [user, setUser] = useState({});
 
-  // work out if current user is a gardener or client so we know which database to listen in with 'where' query using email
   // set friends from database with listener that will update them each time a new one is added
-  // friends will then be added into a chat room with 3 properties: user1, user2, messages.
-  // map friends into pressable chats with message history
-  // users will be added to friends in database side when user clicks message button on gardener page
-  // SET USER NEEDS TO BE FIXED AS 35 AND 51 AREN'T CHANGING IT
+  // find current user id
+  // find current user's friends
+  // map friends so each will be a pressable that navigates to 'Chat' while passing it currentUserData and clientEmail
+
+  const navigation = useNavigation();
 
   useEffect(() => {
-    const clientsColRef = collection(db, 'clients');
-    const gardenersColRef = collection(db, 'gardeners');
-
-    let clients = [];
-    let gardeners = [];
-    getDocs(clientsColRef)
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          clients.push(doc.data());
-        });
-        clients.forEach((client) => {
-          if (client.email === currentUser) {
-            setFriends(client.friends);
-            setUser(client);
-          }
-        });
-      })
-      .catch((err) => {
-        console.log(err.message, 'error');
+    try {
+      const q = query(
+        collection(db, 'gardeners'),
+        where('email', '==', currentUser)
+      );
+      getDocs(q).then((snapshot) => {
+        setCurrentUserData(
+          snapshot.docs.map((doc) => ({
+            name: doc.data().name,
+            email: doc.data().email,
+            friends: doc.data().friends ? doc.data().friends : [],
+            id: doc._key.path.segments[6],
+          }))
+        );
+        setFriends(snapshot.docs[0].data().friends);
+        if (snapshot.docs[0].data().friends) {
+          snapshot.docs[0].data().friends.map((friend) => {
+            const q2 = query(
+              collection(db, 'clients'),
+              where('email', '==', friend)
+            );
+            getDocs(q2).then((snapshot) => {
+              setFriendsData((currFriends) => {
+                return [snapshot.docs[0].data(), ...currFriends];
+              });
+            });
+          });
+        }
       });
-
-    getDocs(gardenersColRef)
-      .then((snapshot) => {
-        snapshot.docs.forEach((doc) => {
-          gardeners.push(doc.data());
-        });
-        gardeners.forEach((gardener) => {
-          if (gardener.email === currentUser) {
-            setFriends(gardener.friends);
-            setUser(gardener);
-          }
-        });
-      })
-      .catch((err) => {
-        console.log(err.message, 'error');
-      });
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
-  const onAddUser = () => {};
+  const handleChat = (email) => {
+    navigation.navigate('Chat', {
+      currentUserData: currentUserData[0],
+      isGardener: true,
+      clientEmail: email,
+    });
+  };
 
-  return (
-    <>
-      <View style={styles.addUser}>
-        <TextInput
-          style={styles.input}
-          // onChangeText={setUserToAdd}
-        />
-        <Button title={'Add Friend'} onPress={onAddUser} />
-      </View>
-      <FlatList />
-    </>
+  return friendsData.length ? (
+    <View style={styles.container}>
+      <FlatList
+        key={({ item }) => {
+          item.id;
+        }}
+        data={friendsData.map((friend) => {
+          return {
+            name: friend.name,
+            id: friend.email,
+          };
+        })}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => handleChat(item.id)}
+            style={styles.item}
+          >
+            <Text>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  ) : (
+    <View>
+      <Text>no friends</Text>
+    </View>
   );
 };
 
 export default GardenerMessages;
 
 const styles = StyleSheet.create({
-  avatar: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    padding: 10,
-    alignItems: 'center',
-    borderBottomColor: '#cacaca',
-    borderBottomWidth: 1,
-  },
-  addUser: {
-    flexDirection: 'row',
-    padding: 10,
-  },
-  input: {
-    backgroundColor: '#cacaca',
+  container: {
     flex: 1,
-    marginRight: 10,
+    paddingTop: 22,
+  },
+  item: {
     padding: 10,
+    fontSize: 18,
+    height: 44,
   },
 });

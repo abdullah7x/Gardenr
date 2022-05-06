@@ -1,24 +1,30 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
-import React, { useEffect, useState } from "react";
-import { TextInput, TouchableOpacity } from "react-native";
-import { auth, db } from "../firebase2";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { auth, db } from '../firebase2';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-} from "firebase/auth";
-import { useNavigation } from "@react-navigation/core";
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+} from 'firebase/auth';
+import { useNavigation } from '@react-navigation/core';
+import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");
   //   const [password, setPassword] = useState("");
   const [values, setValues] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
-  const [log, setLog] = useState(false);
 
   const navigation = useNavigation();
 
@@ -26,27 +32,28 @@ const LoginScreen = () => {
     // const auth = getAuth();
     try {
       const unsubscribe = auth.onAuthStateChanged((user) => {
-        console.log(user, "IS A USER");
+        console.log(user, 'IS A USER');
         // console.log(user.auth.currentUser.email);
         if (user) {
-          console.log("INSIDE HERE");
+          console.log(user.auth.currentUser.email);
+          console.log('INSIDE HERE');
           const q = query(
-            collection(db, "gardeners"),
-            where("email", "==", user.auth.currentUser.email)
+            collection(db, 'gardeners'),
+            where('email', '==', user.auth.currentUser.email)
           );
           getDocs(q).then((snapshot) => {
-            console.log(snapshot.docs[0], "SNAP1");
+            console.log(snapshot.docs[0], 'SNAP1');
             if (snapshot.docs.length === 1) {
-              navigation.navigate("Gardener Home");
+              navigation.navigate('Gardener Home');
             } else {
               const q2 = query(
-                collection(db, "clients"),
-                where("email", "==", user.auth.currentUser.email)
+                collection(db, 'clients'),
+                where('email', '==', user.auth.currentUser.email)
               );
               getDocs(q2).then((snap) => {
-                console.log(snapshot.docs[0], "SNAP2");
+                console.log(snapshot.docs[0], 'SNAP2');
                 if (snap.docs.length === 1) {
-                  navigation.navigate("Client Home", {
+                  navigation.navigate('Client Home', {
                     paramKey: values.email,
                   });
                 }
@@ -59,12 +66,12 @@ const LoginScreen = () => {
       });
       return unsubscribe;
     } catch (e) {
-      console.log(e, "error logging in");
+      console.log(e, 'error logging in');
     }
-  }, [log]);
+  }, []);
 
   const handleReg = () => {
-    navigation.navigate("RegisterButtons");
+    navigation.navigate('RegisterButtons');
   };
 
   const handleChange = (text, event) => {
@@ -78,8 +85,7 @@ const LoginScreen = () => {
     // const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        console.log("IN HANDLE LOGIN");
-        setLog(true);
+        console.log('IN HANDLE LOGIN');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -90,15 +96,18 @@ const LoginScreen = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Image source={require('../assets/logo.png')} style={styles.logo} />
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="email"
-          onChangeText={(text) => handleChange(text, "email")}
+          placeholderTextColor="grey"
+          onChangeText={(text) => handleChange(text, 'email')}
           style={styles.input}
         />
         <TextInput
           placeholder="password"
-          onChangeText={(text) => handleChange(text, "password")}
+          placeholderTextColor="grey"
+          onChangeText={(text) => handleChange(text, 'password')}
           style={styles.input}
           secureTextEntry
         />
@@ -123,46 +132,50 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputContainer: {
-    width: "80%",
+    width: '80%',
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
   },
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 40,
   },
   button: {
-    backgroundColor: "green",
-    width: "100%",
+    backgroundColor: 'green',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginTop: 5,
-    borderColor: "green",
+    borderColor: 'green',
     borderWidth: 2,
   },
   buttonOutlineText: {
-    color: "green",
-    fontWeight: "700",
+    color: 'green',
+    fontWeight: '700',
     fontSize: 16,
+  },
+  logo: {
+    width: 300,
+    height: 300,
   },
 });
