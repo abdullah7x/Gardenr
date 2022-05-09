@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { auth, db } from '../firebase2';
+import { db } from '../firebase2';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -29,9 +29,9 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    // const auth = getAuth();
+    const auth = getAuth();
     try {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
         console.log(user, 'IS A USER');
         // console.log(user.auth.currentUser.email);
         if (user) {
@@ -82,10 +82,11 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     const { email, password } = values;
-    // const auth = getAuth();
+    const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        console.log('IN HANDLE LOGIN');
+      .then((credentials) => {
+        const user = credentials.user;
+        console.log(user, 'IN HANDLE LOGIN');
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -100,6 +101,7 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="email"
+          autoCapitalize="none"
           placeholderTextColor="grey"
           onChangeText={(text) => handleChange(text, 'email')}
           style={styles.input}

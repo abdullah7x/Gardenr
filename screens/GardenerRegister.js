@@ -19,7 +19,6 @@ const GardenerRegister = () => {
     phoneNo: '',
     name: '',
     postCode: '',
-    availability: '',
     companyName: '',
     isGardener: true,
     friends: [],
@@ -40,9 +39,16 @@ const GardenerRegister = () => {
   ];
 
   const handleChange = (text, event) => {
-    setValues((prev) => {
-      return { ...prev, [event]: text };
-    });
+    if (event === 'email') {
+      let userEmail = text.toLowerCase();
+      setValues((prev) => {
+        return { ...prev, [event]: userEmail };
+      });
+    } else {
+      setValues((prev) => {
+        return { ...prev, [event]: text };
+      });
+    }
   };
 
   console.log(selectedJobs, 'selected');
@@ -114,6 +120,7 @@ const GardenerRegister = () => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="email"
+          autoCapitalize="none"
           placeholderTextColor="grey"
           selectionColor="green"
           onChangeText={(text) => handleChange(text, 'email')}
