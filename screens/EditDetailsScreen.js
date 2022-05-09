@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/core';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   TextInput,
-} from "react-native";
-import { auth, db } from "../firebase2";
+} from 'react-native';
+import { auth, db } from '../firebase2';
 import {
   getDocs,
   getDoc,
@@ -17,26 +17,25 @@ import {
   where,
   collection,
   onSnapshot,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
 const EditDetailsScreen = ({ route }) => {
   const { currDetails, setCurrDetails } = route.params;
 
   const navigation = useNavigation();
 
-  console.log(currDetails, "original details");
+  console.log(currDetails, 'original details');
 
-  const [docId, setDocId] = useState("");
+  const [docId, setDocId] = useState('');
   const [values, setValues] = useState({
-    email: "",
-    phoneNo: "",
-    name: "",
-    postCode: "",
-    availability: "",
-    companyName: "",
+    email: '',
+    phoneNo: '',
+    name: '',
+    postCode: '',
+    companyName: '',
   });
 
-  console.log(values, "vals");
+  console.log(values, 'vals');
 
   useEffect(() => {
     setValues({ ...currDetails });
@@ -49,14 +48,14 @@ const EditDetailsScreen = ({ route }) => {
   };
 
   const restoreDetails = () => {
-    console.log("restore");
+    console.log('restore');
     setCurrDetails({ ...currDetails });
   };
 
   useEffect(() => {
     const q2 = query(
-      collection(db, "gardeners"),
-      where("email", "==", currDetails.email)
+      collection(db, 'gardeners'),
+      where('email', '==', currDetails.email)
     );
     getDocs(q2).then((snap) => {
       setDocId(snap.docs[0]._key.path.segments[6]);
@@ -64,26 +63,25 @@ const EditDetailsScreen = ({ route }) => {
   }, []);
 
   const handleUpdate = () => {
-    const { email, phoneNo, name, postCode, availability, companyName } =
-      values;
+    const { email, phoneNo, name, postCode, companyName } = values;
     try {
       setDoc(
-        doc(db, "gardeners", docId),
+        doc(db, 'gardeners', docId),
         {
           email,
           phoneNo,
           name,
           postCode,
-          availability,
+
           companyName,
         },
         { merge: true }
       ).then(() => {
         setCurrDetails({ ...values });
-        navigation.navigate("Gardener Home");
+        navigation.navigate('Gardener Home');
       });
     } catch (e) {
-      console.error("Error updating document: ", e);
+      console.error('Error updating document: ', e);
     }
   };
 
@@ -93,7 +91,7 @@ const EditDetailsScreen = ({ route }) => {
         defaultValue={currDetails?.companyName}
         placeholder="Company Name"
         onChangeText={(text) => {
-          handleChange(text, "companyName");
+          handleChange(text, 'companyName');
         }}
         style={styles.input}
       />
@@ -101,7 +99,7 @@ const EditDetailsScreen = ({ route }) => {
         defaultValue={currDetails?.name}
         placeholder="Name"
         onChangeText={(text) => {
-          handleChange(text, "name");
+          handleChange(text, 'name');
         }}
         style={styles.input}
       />
@@ -109,7 +107,7 @@ const EditDetailsScreen = ({ route }) => {
         defaultValue={currDetails?.postCode}
         placeholder="Post code"
         onChangeText={(text) => {
-          handleChange(text, "postCode");
+          handleChange(text, 'postCode');
         }}
         style={styles.input}
       />
@@ -117,7 +115,7 @@ const EditDetailsScreen = ({ route }) => {
         defaultValue={currDetails?.email}
         placeholder="Email"
         onChangeText={(text) => {
-          handleChange(text, "email");
+          handleChange(text, 'email');
         }}
         style={styles.input}
       />
@@ -125,19 +123,12 @@ const EditDetailsScreen = ({ route }) => {
         defaultValue={currDetails?.phoneNo}
         placeholder="Phone Number"
         onChangeText={(text) => {
-          handleChange(text, "phoneNo");
+          handleChange(text, 'phoneNo');
         }}
         style={styles.input}
       />
       {/* change availability field to dropdown box */}
-      <TextInput
-        defaultValue={currDetails?.availability}
-        placeholder="Availability"
-        onChangeText={(text) => {
-          handleChange(text, "availability");
-        }}
-        style={styles.input}
-      />
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={restoreDetails} style={styles.button}>
           <Text style={styles.buttonText}>Restore Details</Text>
@@ -156,46 +147,46 @@ export default EditDetailsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   inputContainer: {
-    width: "80%",
+    width: '80%',
   },
   input: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,
   },
   buttonContainer: {
-    width: "60%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 40,
   },
   button: {
-    backgroundColor: "green",
-    width: "100%",
+    backgroundColor: 'green',
+    width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   buttonText: {
-    color: "white",
-    fontWeight: "700",
+    color: 'white',
+    fontWeight: '700',
     fontSize: 16,
   },
   buttonOutline: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     marginTop: 5,
-    borderColor: "green",
+    borderColor: 'green',
     borderWidth: 2,
   },
   buttonOutlineText: {
-    color: "green",
-    fontWeight: "700",
+    color: 'green',
+    fontWeight: '700',
     fontSize: 16,
   },
 });

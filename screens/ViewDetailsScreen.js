@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
-import { auth, db } from '../firebase2';
+import { db } from '../firebase2';
 import {
   getDocs,
   getDoc,
@@ -12,9 +12,11 @@ import {
   onSnapshot,
   addDoc,
 } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+
 const ViewDetailsScreen = () => {
   const [currDetails, setCurrDetails] = useState({});
-
+  const auth = getAuth();
   const navigation = useNavigation();
 
   const handleChat = () => {
@@ -54,7 +56,6 @@ const ViewDetailsScreen = () => {
       <Text>Company Name: {currDetails?.companyName}</Text>
       <Text>Name: {currDetails?.name}</Text>
       <Text>Location: {currDetails?.postCode}</Text>
-      <Text>Availability: {currDetails?.availability}</Text>
       <Text>Email: {currDetails?.email}</Text>
       <Text>Phone number: {currDetails?.phoneNo}</Text>
 
@@ -70,8 +71,11 @@ const ViewDetailsScreen = () => {
         <Text style={styles.buttonText}>Map</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-        <Text style={styles.buttonText}>Sign Out</Text>
+      <TouchableOpacity
+        onPress={handleSignOut}
+        style={[styles.button, styles.buttonOutline]}
+      >
+        <Text style={styles.buttonOutlineText}>Sign Out</Text>
       </TouchableOpacity>
     </View>
   );
@@ -100,5 +104,16 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '700',
     fontSize: 17,
+  },
+  buttonOutline: {
+    backgroundColor: 'white',
+    marginTop: 40,
+    borderColor: 'green',
+    borderWidth: 2,
+  },
+  buttonOutlineText: {
+    color: 'green',
+    fontWeight: '700',
+    fontSize: 16,
   },
 });
