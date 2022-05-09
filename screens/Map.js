@@ -54,6 +54,7 @@ const MyMap = () => {
       ; 
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
     var d = R * c; // Distance in km
+
     const milesDistance = d * 0.621371;
     return milesDistance.toFixed(2);
   }
@@ -278,6 +279,7 @@ const MyMap = () => {
             </Text>
           </Callout>
         </Marker>
+        
       </MapView>
     </View>
   );
