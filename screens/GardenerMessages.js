@@ -5,14 +5,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { auth, db } from '../firebase2';
 import { ref } from 'firebase/database';
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { TouchableOpacity } from 'react-native';
 
 const GardenerMessages = () => {
@@ -20,7 +13,6 @@ const GardenerMessages = () => {
   const [currentUserData, setCurrentUserData] = useState({});
   const [friends, setFriends] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
-  const [selectedUserData, setSelectedUserData] = useState({});
   const [loading, setLoading] = useState(true);
 
   // set friends from database with listener that will update them each time a new one is added
@@ -53,7 +45,6 @@ const GardenerMessages = () => {
               where('email', '==', friend)
             );
             getDocs(q2).then((snapshot) => {
-              console.log(snapshot.docs[0].data());
               setLoading(false);
               setFriendsData((currFriends) => [
                 snapshot.docs[0].data(),
@@ -78,7 +69,7 @@ const GardenerMessages = () => {
 
   if (loading)
     return (
-      <View style={styles.container}>
+      <View style={styles.textcontainer}>
         <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
     );
@@ -106,8 +97,8 @@ const GardenerMessages = () => {
         />
       </View>
     ) : (
-      <View>
-        <Text>No friends :(</Text>
+      <View style={styles.textcontainer}>
+        <Text style={styles.text}>You have no conversations</Text>
       </View>
     );
   }
@@ -119,6 +110,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 22,
+  },
+  textcontainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: '20px',
   },
   item: {
     padding: 10,

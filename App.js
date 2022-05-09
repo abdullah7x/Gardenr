@@ -16,6 +16,7 @@ import GardenerMessages from './screens/GardenerMessages';
 import ViewDetailsScreen from './screens/ViewDetailsScreen';
 import EditDetailsScreen from './screens/EditDetailsScreen';
 import MyMap from './screens/Map';
+import ClientMessages from './screens/ClientMessages';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Screen name="SearchList" component={SearchList} />
         <Stack.Screen name="Gardener Register" component={GardenerRegister} />
         <Stack.Screen name="User Register" component={UserRegister} />
+        <Stack.Screen name="Client Messages" component={ClientMessages} />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Gardener Home"
