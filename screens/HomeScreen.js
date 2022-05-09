@@ -22,12 +22,19 @@ const HomeScreen = ({ route }) => {
     navigation.navigate('Search');
   };
 
+  const handleMessages = () => {
+    navigation.navigate('Client Messages');
+  };
+
   return (
     <View style={styles.container}>
       <Text>Email: {auth.currentUser.email}</Text>
 
       <TouchableOpacity onPress={handleSearch} style={styles.button}>
         <Text style={styles.buttonText}>Search</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleMessages} style={styles.button}>
+        <Text style={styles.buttonText}>Messages</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={handleSignOut}
