@@ -1,64 +1,56 @@
 const axios = require('axios');
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { auth, db } from '../firebase2';
-import {
-  getDocs,
-  query,
-  where,
-  collection,
-} from 'firebase/firestore';
+import { getDocs, query, where, collection } from 'firebase/firestore';
 
 const MyMap = () => {
+  const [gardCoords, setGardCoords] = useState({});
 
-  const [ gardPostCode, setGardPostCode ] = useState("");
-  const [ gardCoords, setGardCoords ] = useState({});
-  
   const colRef = collection(db, 'gardeners');
   const q = query(colRef, where('email', '==', auth.currentUser.email));
 
   useEffect(() => {
     getDocs(q).then((snapshot) => {
-      setGardPostCode(snapshot.docs[0].data().postCode);
-      setGardCoords({...postCodeToCoords(gardPostCode)});
-    })
+      postCodeToCoords(snapshot.docs[0].data().postCode);
+    });
   }, []);
 
   const postCodeToCoords = (postcode) => {
-    axios.get(`https://api.postcodes.io/postcodes/${postcode}`)
-    .then((geoData) => {
-      console.log(typeof geoData.data.result.latitude, "TYPE")
-      setGardCoords({
-        latitude: geoData.data.result.latitude,
-        longitude: geoData.data.result.longitude,
+    axios
+      .get(`https://api.postcodes.io/postcodes/${postcode}`)
+      .then((geoData) => {
+        setGardCoords({
+          latitude: geoData.data.result.latitude,
+          longitude: geoData.data.result.longitude,
+        });
       })
-    })
-    .catch(err => console.log(err.msg))
-  }
+      .catch((err) => console.log(err.msg));
+  };
 
   function deg2rad(deg) {
-    return deg * (Math.PI/180)
+    return deg * (Math.PI / 180);
   }
-  
-  console.log(gardCoords, "COORDS test")
-  
+
+  console.log(gardCoords, 'COORDS test');
+
   function latLonDistanceMiles(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2-lat1);
-    var dLon = deg2rad(lon2-lon1); 
-    var a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-      ; 
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var dLat = deg2rad(lat2 - lat1);
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in km
 
     const milesDistance = d * 0.621371;
     return milesDistance.toFixed(2);
   }
-  
 
   // const test = latLonDistanceMiles(53.4808, -2.2426, 53.501, -2.2421 )
   // console.log(test)
@@ -74,16 +66,19 @@ const MyMap = () => {
           longitudeDelta: 0.4421,
         }}
       >
-
         <Marker
-          coordinate={{ 
-            latitude: (Object.keys(gardCoords).length ? gardCoords.latitude : 53.4808),
-            longitude:(Object.keys(gardCoords).length ? gardCoords.longitude : -2.2426) }}
+          coordinate={{
+            latitude: Object.keys(gardCoords).length
+              ? gardCoords.latitude
+              : 53.4808,
+            longitude: Object.keys(gardCoords).length
+              ? gardCoords.longitude
+              : -2.2426,
+          }}
           pinColor="red"
           title="You are based here"
           description=""
-        >
-        </Marker>
+        ></Marker>
 
         <Marker
           coordinate={{ latitude: 53.501, longitude: -2.2421 }}
@@ -93,7 +88,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.501, -2.2421)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.501,
+                -2.2421
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -106,11 +108,18 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.5011, -2.2321)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.5011,
+                -2.2321
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
-        
+
         <Marker
           coordinate={{ latitude: 53.5051, longitude: -2.2321 }}
           pinColor="green"
@@ -119,7 +128,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.5051, -2.2321)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.5051,
+                -2.2321
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -132,7 +148,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4512, -2.2321)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4512,
+                -2.2321
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -145,7 +168,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4423, -2.2341)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4423,
+                -2.2341
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -158,7 +188,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4623, -2.2141)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4623,
+                -2.2141
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -171,7 +208,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4633, -2.2911)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4633,
+                -2.2911
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -184,7 +228,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4923, -2.2641)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4923,
+                -2.2641
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -197,7 +248,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4913, -2.2541)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4913,
+                -2.2541
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -210,7 +268,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4823, -2.2541)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4823,
+                -2.2541
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -223,7 +288,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4713, -2.2441)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4713,
+                -2.2441
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -236,7 +308,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4733, -2.2911)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4733,
+                -2.2911
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -249,7 +328,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4933, -2.2111)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4933,
+                -2.2111
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -262,7 +348,14 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4833, -2.2011)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4833,
+                -2.2011
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
@@ -275,11 +368,17 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is {latLonDistanceMiles(gardCoords?.latitude, gardCoords?.longitude, 53.4733, -2.2211)} miles away
+              is{' '}
+              {latLonDistanceMiles(
+                gardCoords?.latitude,
+                gardCoords?.longitude,
+                53.4733,
+                -2.2211
+              )}{' '}
+              miles away
             </Text>
           </Callout>
         </Marker>
-        
       </MapView>
     </View>
   );
