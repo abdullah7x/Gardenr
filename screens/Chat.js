@@ -28,22 +28,22 @@ const Chat = ({ route }) => {
   let chatId;
   const auth = getAuth();
   useLayoutEffect(() => {
-    let q;
-    if (isGardener) {
-      q = query(
-        collection(db, 'chatrooms'),
-        where('user1', '==', clientEmail),
-        where('user2', '==', auth.currentUser.email)
-      );
-    } else {
-      q = query(
-        collection(db, 'chatrooms'),
-        where('user1', '==', auth.currentUser.email),
-        where('user2', '==', gardenerEmail)
-      );
-    }
-    getDocs(q)
-      .then((snapshot) => {
+    try {
+      let q;
+      if (isGardener) {
+        q = query(
+          collection(db, 'chatrooms'),
+          where('user1', '==', clientEmail),
+          where('user2', '==', auth.currentUser.email)
+        );
+      } else {
+        q = query(
+          collection(db, 'chatrooms'),
+          where('user1', '==', auth.currentUser.email),
+          where('user2', '==', gardenerEmail)
+        );
+      }
+      getDocs(q).then((snapshot) => {
         chatId = snapshot.docs[0]._key.path.segments[6];
         collection(
           db,
@@ -74,10 +74,10 @@ const Chat = ({ route }) => {
         return () => {
           unsubscribe();
         };
-      })
-      .catch((err) => {
-        console.log(err);
       });
+    } catch (err) {
+      console.log(err);
+    }
   }, []);
 
   const onSend = useCallback((messages = []) => {

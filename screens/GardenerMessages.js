@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/core';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 import { auth, db } from '../firebase2';
-import { ref } from 'firebase/database';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { TouchableOpacity } from 'react-native';
 
@@ -14,11 +13,6 @@ const GardenerMessages = () => {
   const [friends, setFriends] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // set friends from database with listener that will update them each time a new one is added
-  // find current user id
-  // find current user's friends
-  // map friends so each will be a pressable that navigates to 'Chat' while passing it currentUserData and clientEmail
 
   const navigation = useNavigation();
 
@@ -69,7 +63,7 @@ const GardenerMessages = () => {
 
   if (loading)
     return (
-      <View style={styles.textcontainer}>
+      <View style={styles.container}>
         <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
     );
@@ -117,11 +111,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: '20px',
+    fontSize: 20,
   },
   item: {
     padding: 10,
     fontSize: 18,
     height: 44,
+    borderBottomColor: 'green',
+    borderStyle: 'solid',
+    borderBottomWidth: 1.5,
+    backgroundColor: 'white',
   },
 });
