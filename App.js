@@ -17,6 +17,9 @@ import ViewDetailsScreen from './screens/ViewDetailsScreen';
 import EditDetailsScreen from './screens/EditDetailsScreen';
 import MyMap from './screens/Map';
 import ClientMessages from './screens/ClientMessages';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer for a long period of time']);
 
 const Stack = createNativeStackNavigator();
 
