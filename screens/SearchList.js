@@ -25,46 +25,89 @@ import { ScrollView } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
+
+const lodash = require('lodash');
+
 const SearchList = ({ route }) => {
   const [docList, setDocList] = useState([]);
-  const { paramKey } = route.params;
+  const { locationSearch, selectedJobs } = route.params;
+  const searchJobs = selectedJobs;
+
   const searchRef = collection(db, 'gardeners');
   const navigation = useNavigation();
   const q = query(searchRef);
   const handleClick = (gardener) => {
     navigation.navigate('SingleGardener', { gardener });
   };
+
+  var first = [1, 2, 3, 4, 5];
+  var second = [4, 5, 6];
+
+  // var difference = first.filter((x) => second.includes(x));
+  // console.log(difference, 'DIFF');
+
+  // first = selectedJobs from Gardener
+  // second = searchJobs
+  // const match = first
+  const searchJobIds = searchJobs.map((job) => {
+    return job.id;
+  });
+
   useEffect(() => {
     try {
       const q = query(collection(db, 'gardeners'));
       getDocs(q).then((snapshot) => {
         snapshot.docs.forEach((doc) => {
           const currDoc = doc.data();
-          if (currDoc.location === paramKey) {
+          const selectJobIds = currDoc.selectedJobs?.map((job) => {
+            return job.id;
+          });
+
+          const match = searchJobIds.filter((x) => selectJobIds?.includes(x));
+          const searchMatches = match.length;
+          currDoc.searchMatches = searchMatches;
+          if (searchMatches) {
             setDocList((currDocs) => {
               return [...currDocs, currDoc];
             });
           }
+          // BELOW WONT BE NEEDED FOR FINAL IMPLEMENTATION
+          // if (currDoc.location === locationSearch) {
+          //   setDocList((currDocs) => {
+          //     return [...currDocs, currDoc];
+          //   });
+          //   /////////////
+          // }
         });
       });
     } catch (e) {
       console.error('Error adding document: ', e);
     }
   }, []);
+
+  const sortedArr = lodash.sortBy(docList, (e) => {
+    return e.searchMatches;
+  });
+  // const iteratees = (obj) => -obj.searchMatches.length;
+  // const sortedArr = lodash.sortBy(docList, iteratees);
+  const reverseArr = sortedArr.reverse();
+  console.log('Before sorting: ', docList);
+  console.log('After sorting: ', sortedArr);
+
   const LeftContent = (props) => <Avatar.Icon {...props} icon="flower" />;
   return (
     <ScrollView>
       <View style={styles.inputContainer}>
-        {docList.map((doc, index) => {
+        {reverseArr.map((doc, index) => {
           return (
-            <Card>
+            <Card key={doc.email}>
               <Card.Title
                 title={doc.email}
                 subtitle="distance from you"
                 left={LeftContent}
               />
               <Card.Content>
-                <Title>{doc.location}</Title>
+                <Title>{(doc.location, doc.searchMatches)}</Title>
                 <Paragraph></Paragraph>
               </Card.Content>
               <Card.Cover
@@ -74,7 +117,7 @@ const SearchList = ({ route }) => {
               />
               <Card.Actions>
                 <TouchableOpacity
-                  onPress={() => handleClick(docList[index])}
+                  onPress={() => handleClick(reverseArr[index])}
                   style={[styles.button, styles.buttonOutline]}
                 >
                   <Text style={styles.buttonOutlineText}>View</Text>

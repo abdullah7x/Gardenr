@@ -21,11 +21,12 @@ import {
 import { db } from '../firebase2';
 import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { getAuth } from 'firebase/auth';
 
 const SingleGardener = ({ route }) => {
   const { gardener } = route.params;
   const LeftContent = (props) => <Avatar.Icon {...props} icon="flower" />;
-
+  const auth = getAuth();
   const currentUser = auth.currentUser.email;
 
   const [currentUserId, setCurrentUserId] = useState(null);

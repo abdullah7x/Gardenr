@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   buttonOutline: {
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: 40,
     borderColor: 'green',
     borderWidth: 2,
   },

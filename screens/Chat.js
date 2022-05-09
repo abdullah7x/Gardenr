@@ -16,6 +16,7 @@ import {
   getDocs,
 } from 'firebase/firestore';
 import { db } from '../firebase2';
+import { getAuth } from 'firebase/auth';
 
 const Chat = ({ route }) => {
   const [messages, setMessages] = useState([]);
@@ -25,7 +26,7 @@ const Chat = ({ route }) => {
   const { currentUserData } = route.params;
   const { gardenerEmail } = route.params;
   let chatId;
-
+  const auth = getAuth();
   useLayoutEffect(() => {
     let q;
     if (isGardener) {
