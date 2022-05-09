@@ -102,7 +102,7 @@ const Chat = ({ route }) => {
       onSend={(messages) => onSend(messages)}
       user={{
         _id: auth?.currentUser?.email,
-        name: currentUserData.name,
+        name: isGardener ? auth.currentUser.email : currentUserData.name,
       }}
     />
   );

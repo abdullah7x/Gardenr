@@ -46,20 +46,22 @@ const GardenerMessages = () => {
           }))
         );
         setFriends(snapshot.docs[0].data().friends);
-        if (snapshot.docs[0].data().friends) {
+        if (snapshot.docs[0].data().friends.length) {
           snapshot.docs[0].data().friends.map((friend) => {
             const q2 = query(
               collection(db, 'clients'),
               where('email', '==', friend)
             );
             getDocs(q2).then((snapshot) => {
-              setFriendsData((currFriends) => {
-                setLoading(false);
-                return [snapshot.docs[0].data(), ...currFriends];
-              });
+              console.log(snapshot.docs[0].data());
+              setLoading(false);
+              setFriendsData((currFriends) => [
+                snapshot.docs[0].data(),
+                ...currFriends,
+              ]);
             });
           });
-        }
+        } else setLoading(false);
       });
     } catch (err) {
       console.log(err);
@@ -77,8 +79,7 @@ const GardenerMessages = () => {
   if (loading)
     return (
       <View style={styles.container}>
-        {' '}
-        <ActivityIndicator animating={true} color={Colors.green200} />{' '}
+        <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
     );
   else {
