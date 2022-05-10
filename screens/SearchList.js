@@ -26,6 +26,7 @@ import { Dialog, Portal } from 'react-native-paper';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
 import getLatLong from '../functions/getLatLong';
+import getDistance from '../functions/getDistance';
 
 const lodash = require('lodash');
 
@@ -49,7 +50,6 @@ const SearchList = ({ route }) => {
 
   useEffect(() => {
     getLatLong(locationSearch).then((res) => {
-      console.log(res, 'RESULT IN SEARCH LIST');
       setPrimaryLocation(res);
     });
   }, [locationSearch]);
@@ -89,11 +89,20 @@ const SearchList = ({ route }) => {
     <ScrollView>
       <View style={styles.inputContainer}>
         {reverseArr.map((doc, index) => {
+          const gardenerLocation = doc.latLong;
+          console.log(gardenerLocation.lat, 'PL');
+          const distanceToUser = getDistance(
+            primaryLocation.lat,
+            primaryLocation.lng,
+            gardenerLocation.lat,
+            gardenerLocation.lng
+          );
+
           return (
             <Card key={doc.email}>
               <Card.Title
-                title={doc.email}
-                subtitle="distance from you"
+                title={doc.companyName}
+                subtitle={`${distanceToUser} miles away`}
                 left={LeftContent}
               />
               <Card.Content>
