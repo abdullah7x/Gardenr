@@ -88,7 +88,7 @@ const SearchList = ({ route }) => {
   const LeftContent = (props) => <Avatar.Icon {...props} icon="flower" />;
   return (
     <ScrollView>
-      <View style={styles.inputContainer}>
+      <View style={styles.container}>
         {reverseArr.map((doc, index) => {
           const gardenerLocation = doc.latLong;
           console.log(gardenerLocation.lat, 'PL');
@@ -100,7 +100,11 @@ const SearchList = ({ route }) => {
           );
 
           return (
-            <Card key={doc.email}>
+            <Card
+              key={doc.email}
+              mode={'outlined'}
+              style={styles.inputContainer}
+            >
               <Card.Title
                 title={doc.companyName}
                 subtitle={`${distanceToUser} miles away`}
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputContainer: {
-    width: '80%',
+    width: '100%',
   },
   input: {
     backgroundColor: 'white',
