@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -117,6 +117,10 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     fontSize: 18,
-    height: 44,
+    height: 50,
+    borderBottomColor: 'green',
+    borderStyle: 'solid',
+    borderBottomWidth: 1.5,
+    backgroundColor: 'white',
   },
 });
