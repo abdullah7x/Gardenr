@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useLayoutEffect,
-  useEffect,
-} from 'react';
+import React, { useState, useCallback, useLayoutEffect } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import {
   collection,
@@ -21,7 +16,6 @@ const Chat = ({ route }) => {
   const [messages, setMessages] = useState([]);
   const isGardener = route.params.isGardener ? route.params.isGardener : false;
   const { clientEmail } = route.params;
-  const { currentUserId } = route.params;
   const { currentUserData } = route.params;
   const { gardenerEmail } = route.params;
   let chatId;

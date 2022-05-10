@@ -12,13 +12,11 @@ import SelectBox from 'react-native-multi-selectbox';
 import { db } from '../firebase2';
 import {
   getDocs,
-  getDoc,
   doc,
   setDoc,
   query,
   where,
   collection,
-  onSnapshot,
 } from 'firebase/firestore';
 import { xorBy } from 'lodash';
 import { getAuth } from 'firebase/auth';
