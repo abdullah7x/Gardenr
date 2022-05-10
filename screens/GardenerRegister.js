@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/core';
 import { collection, addDoc, setDoc } from 'firebase/firestore';
 import SelectBox from 'react-native-multi-selectbox';
 import { xorBy } from 'lodash';
+import getLatLong from '../functions/getLatLong';
 
 const GardenerRegister = () => {
   const [values, setValues] = useState({
@@ -51,8 +52,7 @@ const GardenerRegister = () => {
     }
   };
 
-  console.log(selectedJobs, 'selected');
-  console.log(values.jobTypes, 'VALUES');
+  useEffect(() => {}, []);
 
   const handleSignUp = () => {
     const {
@@ -65,39 +65,46 @@ const GardenerRegister = () => {
       companyName,
       friends,
     } = values;
-
-    const auth = getAuth();
-    //Create Auth user w email and password
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-
-        // ...
-        //Create DB user with more details
-        {
-          try {
-            addDoc(collection(db, 'gardeners'), {
-              email,
-              password,
-              phoneNo,
-              isGardener,
-              name,
-              postCode,
-              companyName,
-              friends,
-              selectedJobs,
-            });
-            navigation.navigate('Gardener Home');
-          } catch (e) {
-            console.error('Error adding document: ', e);
-          }
-        }
+    let latLong;
+    getLatLong(postCode)
+      .then((result) => {
+        latLong = result;
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+      .then(() => {
+        const auth = getAuth();
+        //Create Auth user w email and password
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+
+            // ...
+            //Create DB user with more details
+            {
+              try {
+                addDoc(collection(db, 'gardeners'), {
+                  email,
+                  password,
+                  phoneNo,
+                  isGardener,
+                  name,
+                  postCode,
+                  companyName,
+                  friends,
+                  selectedJobs,
+                  latLong,
+                });
+                navigation.navigate('Gardener Home');
+              } catch (e) {
+                console.error('Error adding document: ', e);
+              }
+            }
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+          });
       });
   };
 

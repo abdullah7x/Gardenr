@@ -30,10 +30,10 @@ import getLatLong from '../functions/getLatLong';
 const lodash = require('lodash');
 
 const SearchList = ({ route }) => {
+  const [primaryLocation, setPrimaryLocation] = useState({});
   const [docList, setDocList] = useState([]);
   const [latLong, setLatLong] = useState({});
   const { locationSearch, selectedJobs } = route.params;
-
   const searchJobs = selectedJobs;
 
   const searchRef = collection(db, 'gardeners');
@@ -50,6 +50,7 @@ const SearchList = ({ route }) => {
   useEffect(() => {
     getLatLong(locationSearch).then((res) => {
       console.log(res, 'RESULT IN SEARCH LIST');
+      setPrimaryLocation(res);
     });
   }, [locationSearch]);
 
