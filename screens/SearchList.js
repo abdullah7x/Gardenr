@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Picker,
 } from 'react-native';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 import React, { useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase2';
@@ -34,6 +35,7 @@ const SearchList = ({ route }) => {
   const [primaryLocation, setPrimaryLocation] = useState({});
   const [docList, setDocList] = useState([]);
   const [latLong, setLatLong] = useState({});
+  const [loading, setLoading] = useState(true);
   const { locationSearch, selectedJobs } = route.params;
   const searchJobs = selectedJobs;
 
@@ -73,6 +75,7 @@ const SearchList = ({ route }) => {
               return [...currDocs, currDoc];
             });
           }
+          setLoading(false);
         });
       });
     } catch (e) {
@@ -86,53 +89,76 @@ const SearchList = ({ route }) => {
   const reverseArr = sortedArr.reverse();
 
   const LeftContent = (props) => <Avatar.Icon {...props} icon="flower" />;
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        {reverseArr.map((doc, index) => {
-          const gardenerLocation = doc.latLong;
-          console.log(gardenerLocation.lat, 'PL');
-          const distanceToUser = getDistance(
-            primaryLocation.lat,
-            primaryLocation.lng,
-            gardenerLocation.lat,
-            gardenerLocation.lng
-          );
-
-          return (
-            <Card
-              key={doc.email}
-              mode={'outlined'}
-              style={styles.inputContainer}
-            >
-              <Card.Title
-                title={doc.companyName}
-                subtitle={`${distanceToUser} miles away`}
-                left={LeftContent}
-              />
-              <Card.Content>
-                <Title>{`Matches ${doc.searchMatches} / ${clientJobs} of your job needs`}</Title>
-                <Paragraph></Paragraph>
-              </Card.Content>
-              <Card.Cover
-                source={{
-                  uri: 'https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg',
-                }}
-              />
-              <Card.Actions>
-                <TouchableOpacity
-                  onPress={() => handleClick(reverseArr[index])}
-                  style={[styles.button, styles.buttonOutline]}
-                >
-                  <Text style={styles.buttonOutlineText}>View</Text>
-                </TouchableOpacity>
-              </Card.Actions>
-            </Card>
-          );
-        })}
+  if (loading) {
+    return (
+      <View style={styles.loadContainer}>
+        <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
-    </ScrollView>
-  );
+    );
+  } else if (reverseArr.length) {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          {reverseArr.map((doc, index) => {
+            const gardenerLocation = doc.latLong;
+            console.log(gardenerLocation.lat, 'PL');
+            const distanceToUser = getDistance(
+              primaryLocation.lat,
+              primaryLocation.lng,
+              gardenerLocation.lat,
+              gardenerLocation.lng
+            );
+
+            return (
+              <Card
+                key={doc.email}
+                mode={'outlined'}
+                style={styles.inputContainer}
+              >
+                <Card.Title
+                  title={doc.companyName}
+                  subtitle={`${distanceToUser} miles away`}
+                  left={LeftContent}
+                />
+                <Card.Content>
+                  <Title
+                    style={styles.subtitleText}
+                  >{`Matches ${doc.searchMatches} / ${clientJobs} of your job needs`}</Title>
+                  <Paragraph></Paragraph>
+                </Card.Content>
+                <Card.Cover
+                  source={{
+                    uri: 'https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg',
+                  }}
+                />
+                <Card.Actions>
+                  <TouchableOpacity
+                    onPress={() => handleClick(reverseArr[index])}
+                    style={[styles.button, styles.buttonOutline]}
+                  >
+                    <Text style={styles.buttonOutlineText}>View</Text>
+                  </TouchableOpacity>
+                </Card.Actions>
+              </Card>
+            );
+          })}
+        </View>
+      </ScrollView>
+    );
+  } else {
+    return (
+      <View style={styles.noMatchContainer}>
+        <Text style={styles.noMatchText}>
+          Sorry, we couldn't find any Gardenrs that match your jobs needs at the
+          moment.
+        </Text>
+        <Text style={styles.noMatchText}>
+          You can try searching for a different set of job types to find a close
+          match.
+        </Text>
+      </View>
+    );
+  }
 };
 export default SearchList;
 const styles = StyleSheet.create({
@@ -141,11 +167,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  loadContainer: {
+    flex: 1,
+    paddingTop: 22,
+  },
   inputContainer: {
     width: '100%',
   },
   input: {
     backgroundColor: 'white',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
+  },
+  noMatchContainer: {
+    flex: 1,
+
+    alignItems: 'center',
+  },
+  noMatchText: {
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
@@ -178,6 +219,10 @@ const styles = StyleSheet.create({
   buttonOutlineText: {
     color: 'green',
     fontWeight: '700',
+    fontSize: 16,
+  },
+  subtitleText: {
+    color: 'grey',
     fontSize: 16,
   },
 });

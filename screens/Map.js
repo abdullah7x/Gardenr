@@ -108,7 +108,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -128,7 +128,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -148,7 +148,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -168,7 +168,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -188,7 +188,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -208,7 +208,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -228,7 +228,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -248,7 +248,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -268,7 +268,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -288,7 +288,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -308,7 +308,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -328,7 +328,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -348,7 +348,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
@@ -368,7 +368,7 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
+              {' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
