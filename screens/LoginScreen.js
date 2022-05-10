@@ -102,7 +102,6 @@ const LoginScreen = () => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Modal
-        style={styles.popup}
         animationType="slide"
         transparent={false}
         presentationStyle="pageSheet"
@@ -113,9 +112,9 @@ const LoginScreen = () => {
         }}
       >
         <View style={styles.container}>
-            <Text style={styles}>Invalid Login details, please try again</Text>
+            <Text>Invalid Login details, please try again</Text>
             <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
+              style={styles.button}
               onPress={() => setModalVisible(!modalVisible)}
             >
               <Text style={styles.textStyle}> Ok </Text>
@@ -205,15 +204,4 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
-  // popUp: {
-  //   width: "50%",
-  //   height: "50%",
-  //   backgroundColor: "black",
-  //   display: 'flex',
-  // 	justifyContent: 'center',
-	//   alignItems: 'center',
-  // },
-  // popUpText: {
-
-  // },
 });
