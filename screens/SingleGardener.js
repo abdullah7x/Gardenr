@@ -4,6 +4,7 @@ import {
   View,
   KeyboardAvoidingView,
   Picker,
+  Image,
 } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { ScrollView } from 'react-native';
@@ -76,6 +77,16 @@ const SingleGardener = ({ route }) => {
     });
   }, []);
 
+  let gardenerJobsArr;
+  let gardenerJobs;
+
+  // useEffect(() => {
+  //   console.log(gardenerData);
+  //   gardenerJobsArr = gardenerData.selectedJobs.map((job) => {
+  //     gardenerJobs = gardenerJobsArr.join(', ');
+  //   });
+  // }, [gardenerData]);
+
   const handleMessage = async () => {
     // add gardener to clients friends
     const clientsRef = doc(db, 'clients', currentUserId);
@@ -135,83 +146,201 @@ const SingleGardener = ({ route }) => {
     }
   };
 
+  // return (
+  //   <View style={styles.container}>
+  //     <Card>
+  //       <Card.Title title={gardenerData.companyName} left={LeftContent} />
+  //       <Card.Cover source={require('../assets/cover-logo.png')} />
+  //       <Card.Content>
+  //         <Paragraph />
+  //         <Paragraph>{gardenerData.email}</Paragraph>
+  //       </Card.Content>
+
+  //       <Card.Actions>
+  //         <TouchableOpacity onPress={handleMessage} style={styles.button}>
+  //           <Text style={styles.buttonText}>Message</Text>
+  //         </TouchableOpacity>
+  //       </Card.Actions>
+  //     </Card>
+  //   </View>
+  // );
+
+  // return (
+  //   <View style={{ height: '100%' }}>
+  //     <TouchableOpacity onPress={handleMessage} style={styles.button}>
+  //       <Text style={styles.buttonText}>Message</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
+
   return (
-    <ScrollView>
-      <View>
-        <Card>
-          <Card.Title
-            title={gardener.email}
-            subtitle="distance from you"
-            left={LeftContent}
-          />
-          <Card.Content>
-            <Title>{gardener.location}</Title>
-            <Paragraph></Paragraph>
-          </Card.Content>
-          <Card.Cover
-            source={{
-              uri: 'https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg',
-            }}
-          />
-          <Card.Actions>
-            <TouchableOpacity
-              onPress={handleMessage}
-              style={[styles.button, styles.buttonOutline]}
-            >
-              <Text style={styles.buttonOutlineText}>Message</Text>
-            </TouchableOpacity>
-          </Card.Actions>
-        </Card>
+    <View style={styles.container}>
+      <View style={styles.top}>
+        <Text
+          style={{
+            // color: '#821752',
+            fontWeight: '700',
+            fontSize: 30,
+            fontFamily: 'TamilSangamMN-Bold',
+            letterSpacing: 4,
+          }}
+        >
+          {gardenerData.companyName}
+        </Text>
       </View>
-    </ScrollView>
+      <View style={styles.image}>
+        <Image source={require('../assets/cover-logo.png')} />
+      </View>
+      <View style={styles.middleTop}>
+        <Text style={styles.subtitleText}>Company Details</Text>
+        <Text style={styles.middleText}>Owner: {gardenerData.name}</Text>
+        {/* <Text style={styles.middleText}>Available for: {gardenerJobs}</Text> */}
+        <Text style={styles.middleText}>
+          Post Code: {gardenerData.postCode}
+        </Text>
+        <Text style={styles.middleText}>Phone: {gardenerData.phoneNo}</Text>
+        <Text style={styles.middleText}>Email: {gardenerData.email}</Text>
+      </View>
+
+      <View style={styles.bottom}>
+        <TouchableOpacity onPress={handleMessage} style={styles.msgButton}>
+          <Text style={{ color: 'white', fontWeight: '700', fontSize: 16 }}>
+            Message
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
 export default SingleGardener;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+    padding: 1,
+    margin: 0,
   },
-  inputContainer: {
-    width: '80%',
-  },
-  input: {
+  top: {
+    flex: 0.1,
     backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
+    borderBottomWidth: 5,
+    // borderTopWidth: 4,
+
+    borderRadius: 80,
+    borderColor: '#008002',
+
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  buttonContainer: {
-    width: '60%',
+  image: {
+    flex: 0.25,
+  },
+  middleTop: {
+    flex: 0.45,
+    // alignItems: 'center',
+    justifyContent: 'center',
+
+    borderTopWidth: 5,
+    borderRadius: 80,
+    borderColor: '#008002',
+    marginRight: 20,
+    marginLeft: 20,
+
+    // backgroundColor: 'beige',
+  },
+  middleBottom: {
+    flex: 0.2,
+    // alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 20,
+    marginLeft: 20,
+    // backgroundColor: 'beige',
+  },
+  middleText: {
+    fontWeight: '200',
+    fontSize: 22,
+    fontFamily: 'TamilSangamMN-Bold',
+    marginTop: 8,
+  },
+
+  subtitleText: {
+    fontWeight: '500',
+    fontSize: 28,
+    fontFamily: 'TamilSangamMN-Bold',
+    textDecorationStyle: 'solid',
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  bottom: {
+    flex: 0.1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
-  },
-  button: {
     backgroundColor: 'green',
-    width: '100%',
-    padding: 15,
+    marginBottom: 30,
+    marginRight: 10,
+    marginLeft: 10,
     borderRadius: 10,
-    alignItems: 'center',
-  },
-  buttonText: {
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
   },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: 'green',
-    borderWidth: 2,
-  },
-  buttonOutlineText: {
-    color: 'green',
-    fontWeight: '700',
-    fontSize: 16,
-  },
 });
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: '100%',
+//   },
+//   coverImg: {
+//     height: '500',
+//     width: '500',
+//   },
+//   inputContainer: {
+//     marginBottom: 0,
+//     marginVertical: 0,
+//   },
+//   paraBlock: {
+//     backgroundColor: 'white',
+//     paddingVertical: 20,
+//   },
+//   input: {
+//     backgroundColor: 'white',
+//     paddingHorizontal: 15,
+//     paddingVertical: 10,
+//     borderRadius: 10,
+//     marginTop: 5,
+//   },
+//   buttonContainer: {
+//     width: '60%',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginTop: 40,
+//   },
+//   button: {
+//         marginBottom: 0,
+//     backgroundColor: 'green',
+//     width: '100%',
+//     padding: 15,
+//     borderRadius: 10,
+//     alignItems: 'center',
+//   },
+//   buttonText: {
+//     color: 'white',
+//     fontWeight: '700',
+//     fontSize: 16,
+//   },
+//   buttonOutline: {
+//     backgroundColor: 'white',
+//     marginTop: 5,
+//     borderColor: 'green',
+//     borderWidth: 2,
+//     justifyContent: 'flex-end',
+//     alignItems: 'center',
+//   },
+//   buttonOutlineText: {
+//     color: 'green',
+//     fontWeight: '700',
+//     fontSize: 16,
+//   },
+// });

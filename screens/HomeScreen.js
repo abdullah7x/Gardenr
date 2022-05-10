@@ -83,4 +83,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
+  buttonOutlineText: {
+    color: 'green',
+    fontWeight: '700',
+    fontSize: 16,
+  },
 });

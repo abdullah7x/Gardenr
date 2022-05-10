@@ -34,7 +34,7 @@ const SearchScreen = (props) => {
   };
 
   const handleSearch = () => {
-    navigation.navigate('Search List', { locationSearch, selectedJobs });
+    navigation.navigate('SearchList', { locationSearch, selectedJobs });
   };
 
   const onMultiChange = () => {
