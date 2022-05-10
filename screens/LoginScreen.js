@@ -53,9 +53,7 @@ const LoginScreen = () => {
               getDocs(q2).then((snap) => {
                 console.log(snapshot.docs[0], 'SNAP2');
                 if (snap.docs.length === 1) {
-                  navigation.navigate('Client Home', {
-                    paramKey: values.email,
-                  });
+                  navigation.navigate('Client Home');
                 }
               });
             }
