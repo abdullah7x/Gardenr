@@ -28,10 +28,7 @@ const ViewDetailsScreen = () => {
   };
 
   const navEditDetails = () => {
-    navigation.navigate('EditDetails', {
-      currDetails,
-      setCurrDetails,
-    });
+    navigation.navigate('EditDetails');
   };
 
   const colRef = collection(db, 'gardeners');
