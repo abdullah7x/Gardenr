@@ -7,7 +7,8 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import { auth, db } from '../firebase2';
+import SelectBox from 'react-native-multi-selectbox';
+import { db } from '../firebase2';
 import {
   getDocs,
   getDoc,
@@ -18,6 +19,7 @@ import {
   collection,
   onSnapshot,
 } from 'firebase/firestore';
+import { xorBy } from 'lodash';
 
 const EditDetailsScreen = ({ route }) => {
   const { currDetails, setCurrDetails } = route.params;
@@ -25,6 +27,18 @@ const EditDetailsScreen = ({ route }) => {
   const navigation = useNavigation();
 
   console.log(currDetails, 'original details');
+
+  const jobTypes = [
+    { item: 'Basic maintanence', id: 'BASIC' },
+    { item: 'Green waste disposal', id: 'TRIM' },
+    { item: 'Landscaping', id: 'SCAPE' },
+    { item: 'Pest control', id: 'PEST' },
+    { item: 'Installation services', id: 'INSTALL' },
+    { item: 'Planting', id: 'PLANT' },
+    { item: 'Horticulture', id: 'HORT' },
+    { item: 'Tree surgery', id: 'TREE' },
+    { item: 'Irrigation', id: 'IRRI' },
+  ];
 
   const [docId, setDocId] = useState('');
   const [values, setValues] = useState({
@@ -34,6 +48,14 @@ const EditDetailsScreen = ({ route }) => {
     postCode: '',
     companyName: '',
   });
+  const [selectedJobs, setSelectedJobs] = useState(currDetails.selectedJobs);
+
+  const onMultiChange = () => {
+    return (value) => {
+      setSelectedJobs(xorBy(selectedJobs, [value], 'id'));
+      // handleChange(selectedJobs, 'jobTypes');
+    };
+  };
 
   console.log(values, 'vals');
 
@@ -128,6 +150,17 @@ const EditDetailsScreen = ({ route }) => {
         style={styles.input}
       />
       {/* change availability field to dropdown box */}
+      <View style={styles.inputContainer}>
+        <SelectBox
+          label="Select job types"
+          options={jobTypes}
+          selectedValues={currDetails?.selectedJobs}
+          onMultiSelect={onMultiChange()}
+          onTapClose={onMultiChange()}
+          isMulti
+          inputPlaceholder="Required"
+        />
+      </View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={restoreDetails} style={styles.button}>

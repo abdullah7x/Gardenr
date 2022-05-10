@@ -5,7 +5,6 @@ import React, {
   useEffect,
 } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
-import { auth } from '../firebase2';
 import {
   collection,
   addDoc,
