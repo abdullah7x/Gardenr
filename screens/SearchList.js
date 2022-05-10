@@ -25,33 +25,33 @@ import { ScrollView } from 'react-native';
 import { Dialog, Portal } from 'react-native-paper';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
+import getLatLong from '../functions/getLatLong';
 
 const lodash = require('lodash');
 
 const SearchList = ({ route }) => {
   const [docList, setDocList] = useState([]);
+  const [latLong, setLatLong] = useState({});
   const { locationSearch, selectedJobs } = route.params;
+
   const searchJobs = selectedJobs;
 
   const searchRef = collection(db, 'gardeners');
-  const navigation = useNavigation();
   const q = query(searchRef);
+  const navigation = useNavigation();
   const handleClick = (gardener) => {
     navigation.navigate('SingleGardener', { gardener });
   };
 
-  var first = [1, 2, 3, 4, 5];
-  var second = [4, 5, 6];
-
-  // var difference = first.filter((x) => second.includes(x));
-  // console.log(difference, 'DIFF');
-
-  // first = selectedJobs from Gardener
-  // second = searchJobs
-  // const match = first
   const searchJobIds = searchJobs.map((job) => {
     return job.id;
   });
+
+  useEffect(() => {
+    getLatLong(locationSearch).then((res) => {
+      console.log(res, 'RESULT IN SEARCH LIST');
+    });
+  }, [locationSearch]);
 
   useEffect(() => {
     try {
@@ -71,13 +71,6 @@ const SearchList = ({ route }) => {
               return [...currDocs, currDoc];
             });
           }
-          // BELOW WONT BE NEEDED FOR FINAL IMPLEMENTATION
-          // if (currDoc.location === locationSearch) {
-          //   setDocList((currDocs) => {
-          //     return [...currDocs, currDoc];
-          //   });
-          //   /////////////
-          // }
         });
       });
     } catch (e) {
@@ -88,11 +81,7 @@ const SearchList = ({ route }) => {
   const sortedArr = lodash.sortBy(docList, (e) => {
     return e.searchMatches;
   });
-  // const iteratees = (obj) => -obj.searchMatches.length;
-  // const sortedArr = lodash.sortBy(docList, iteratees);
   const reverseArr = sortedArr.reverse();
-  console.log('Before sorting: ', docList);
-  console.log('After sorting: ', sortedArr);
 
   const LeftContent = (props) => <Avatar.Icon {...props} icon="flower" />;
   return (

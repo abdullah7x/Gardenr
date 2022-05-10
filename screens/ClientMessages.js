@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { getAuth } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import {
@@ -8,18 +9,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import { ActivityIndicator, Colors } from 'react-native-paper';
-import { auth, db } from '../firebase2';
+import { db } from '../firebase2';
 
 const ClientMessages = () => {
   const [currentUserData, setCurrentUserData] = useState({});
   const [friendsData, setFriendsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const currentUser = auth.currentUser.email;
+  const auth = getAuth();
 
   const navigation = useNavigation();
 
   useEffect(() => {
+    const currentUser = auth.currentUser.email;
     const q = query(
       collection(db, 'clients'),
       where('email', '==', currentUser)

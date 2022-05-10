@@ -4,10 +4,11 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { auth, db } from '../firebase2';
 import { getDocs, query, where, collection } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const MyMap = () => {
   const [gardCoords, setGardCoords] = useState({});
-
+  const auth = getAuth();
   const colRef = collection(db, 'gardeners');
   const q = query(colRef, where('email', '==', auth.currentUser.email));
 
@@ -88,7 +89,6 @@ const MyMap = () => {
         >
           <Callout>
             <Text>
-              is{' '}
               {latLonDistanceMiles(
                 gardCoords?.latitude,
                 gardCoords?.longitude,
