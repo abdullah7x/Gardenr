@@ -12,7 +12,6 @@ const GardenerMessages = () => {
   const auth = getAuth();
   const currentUser = auth.currentUser.email;
   const [currentUserData, setCurrentUserData] = useState({});
-  const [friends, setFriends] = useState([]);
   const [friendsData, setFriendsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +32,6 @@ const GardenerMessages = () => {
             id: doc._key.path.segments[6],
           }))
         );
-        setFriends(snapshot.docs[0].data().friends);
         if (snapshot.docs[0].data().friends.length) {
           snapshot.docs[0].data().friends.map((friend) => {
             const q2 = query(
