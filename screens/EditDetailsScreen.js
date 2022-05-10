@@ -58,6 +58,7 @@ const EditDetailsScreen = ({ route }) => {
   };
 
   console.log(values, 'vals');
+  console.log(selectedJobs, 'jobs');
 
   useEffect(() => {
     setValues({ ...currDetails });
@@ -96,6 +97,7 @@ const EditDetailsScreen = ({ route }) => {
           postCode,
 
           companyName,
+          selectedJobs,
         },
         { merge: true }
       ).then(() => {
@@ -157,6 +159,20 @@ const EditDetailsScreen = ({ route }) => {
           selectedValues={currDetails?.selectedJobs}
           onMultiSelect={onMultiChange()}
           onTapClose={onMultiChange()}
+          isMulti
+          labelStyle={{
+            marginTop: 20,
+            backgroundColor: 'white',
+            borderRadius: 3,
+            padding: 5,
+          }}
+          containerStyle={{
+            backgroundColor: 'white',
+            borderRadius: 3,
+            padding: 5,
+            color: 'green',
+          }}
+          selectedItemStyle={{ backgroundColor: 'green' }}
           isMulti
           inputPlaceholder="Required"
         />
