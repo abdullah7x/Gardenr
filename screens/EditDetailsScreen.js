@@ -26,7 +26,7 @@ const EditDetailsScreen = ({ route }) => {
 
   const navigation = useNavigation();
 
-  console.log(currDetails, 'original details');
+  console.log(values);
 
   const jobTypes = [
     { item: 'Basic maintanence', id: 'BASIC' },
@@ -57,9 +57,6 @@ const EditDetailsScreen = ({ route }) => {
     };
   };
 
-  console.log(values, 'vals');
-  console.log(selectedJobs, 'jobs');
-
   useEffect(() => {
     setValues({ ...currDetails });
   }, []);
@@ -73,6 +70,7 @@ const EditDetailsScreen = ({ route }) => {
   const restoreDetails = () => {
     console.log('restore');
     setCurrDetails({ ...currDetails });
+    setSelectedJobs(currDetails?.selectedJobs);
   };
 
   useEffect(() => {
@@ -156,10 +154,11 @@ const EditDetailsScreen = ({ route }) => {
         <SelectBox
           label="Select job types"
           options={jobTypes}
-          selectedValues={currDetails?.selectedJobs}
+          selectedValues={selectedJobs}
           onMultiSelect={onMultiChange()}
           onTapClose={onMultiChange()}
           isMulti
+          inputPlaceholder="Required"
           labelStyle={{
             marginTop: 20,
             backgroundColor: 'white',
@@ -173,8 +172,6 @@ const EditDetailsScreen = ({ route }) => {
             color: 'green',
           }}
           selectedItemStyle={{ backgroundColor: 'green' }}
-          isMulti
-          inputPlaceholder="Required"
         />
       </View>
 
