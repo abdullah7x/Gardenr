@@ -45,7 +45,8 @@ const SearchScreen = (props) => {
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Search location"
+          placeholder="Your postcode"
+          placeholderTextColor="grey"
           onChangeText={(text) => handleChange(text)}
           style={styles.input}
         />

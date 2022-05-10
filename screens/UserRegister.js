@@ -74,18 +74,21 @@ const UserRegister = () => {
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="email"
+          placeholderTextColor="grey"
           autoCapitalize="none"
           onChangeText={(text) => handleChange(text, 'email')}
           style={styles.input}
         />
         <TextInput
           placeholder="password"
+          placeholderTextColor="grey"
           onChangeText={(text) => handleChange(text, 'password')}
           style={styles.input}
           secureTextEntry
         />
         <TextInput
           placeholder="name"
+          placeholderTextColor="grey"
           onChangeText={(text) => {
             handleChange(text, 'name');
           }}
@@ -93,6 +96,7 @@ const UserRegister = () => {
         />
         <TextInput
           placeholder="phone number"
+          placeholderTextColor="grey"
           onChangeText={(text) => {
             handleChange(text, 'phoneNo');
           }}

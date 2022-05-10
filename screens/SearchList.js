@@ -47,6 +47,7 @@ const SearchList = ({ route }) => {
   const searchJobIds = searchJobs.map((job) => {
     return job.id;
   });
+  const clientJobs = searchJobIds.length;
 
   useEffect(() => {
     getLatLong(locationSearch).then((res) => {
@@ -106,7 +107,7 @@ const SearchList = ({ route }) => {
                 left={LeftContent}
               />
               <Card.Content>
-                <Title>{(doc.location, doc.searchMatches)}</Title>
+                <Title>{`Matches ${doc.searchMatches} / ${clientJobs} of your job needs`}</Title>
                 <Paragraph></Paragraph>
               </Card.Content>
               <Card.Cover
