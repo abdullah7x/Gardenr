@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 import SelectBox from 'react-native-multi-selectbox';
 import { db } from '../firebase2';
@@ -20,13 +21,13 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import { xorBy } from 'lodash';
+import { getAuth } from 'firebase/auth';
 
-const EditDetailsScreen = ({ route }) => {
-  const { currDetails, setCurrDetails } = route.params;
+const EditDetailsScreen = () => {
+  const auth = getAuth();
+  const [currDetails, setCurrDetails] = useState({});
 
   const navigation = useNavigation();
-
-  console.log(values);
 
   const jobTypes = [
     { item: 'Basic maintanence', id: 'BASIC' },
@@ -40,7 +41,7 @@ const EditDetailsScreen = ({ route }) => {
     { item: 'Irrigation', id: 'IRRI' },
   ];
 
-  const [docId, setDocId] = useState('');
+  const docId = currDetails?.id;
   const [values, setValues] = useState({
     email: '',
     phoneNo: '',
@@ -48,7 +49,10 @@ const EditDetailsScreen = ({ route }) => {
     postCode: '',
     companyName: '',
   });
-  const [selectedJobs, setSelectedJobs] = useState(currDetails.selectedJobs);
+  const [selectedJobs, setSelectedJobs] = useState([]);
+
+  const colRef = collection(db, 'gardeners');
+  const q = query(colRef, where('email', '==', auth.currentUser.email));
 
   const onMultiChange = () => {
     return (value) => {
@@ -58,7 +62,11 @@ const EditDetailsScreen = ({ route }) => {
   };
 
   useEffect(() => {
-    setValues({ ...currDetails });
+    getDocs(q).then((snapshot) => {
+      setCurrDetails({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
+      setValues({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
+      setSelectedJobs(snapshot.docs[0].data().selectedJobs);
+    });
   }, []);
 
   const handleChange = (text, event) => {
@@ -68,20 +76,11 @@ const EditDetailsScreen = ({ route }) => {
   };
 
   const restoreDetails = () => {
-    console.log('restore');
-    setCurrDetails({ ...currDetails });
+    setValues({ ...currDetails });
     setSelectedJobs(currDetails?.selectedJobs);
   };
 
-  useEffect(() => {
-    const q2 = query(
-      collection(db, 'gardeners'),
-      where('email', '==', currDetails.email)
-    );
-    getDocs(q2).then((snap) => {
-      setDocId(snap.docs[0]._key.path.segments[6]);
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   const handleUpdate = () => {
     const { email, phoneNo, name, postCode, companyName } = values;
@@ -108,49 +107,49 @@ const EditDetailsScreen = ({ route }) => {
   };
 
   return (
-    <View>
-      <TextInput
-        defaultValue={currDetails?.companyName}
-        placeholder="Company Name"
-        onChangeText={(text) => {
-          handleChange(text, 'companyName');
-        }}
-        style={styles.input}
-      />
-      <TextInput
-        defaultValue={currDetails?.name}
-        placeholder="Name"
-        onChangeText={(text) => {
-          handleChange(text, 'name');
-        }}
-        style={styles.input}
-      />
-      <TextInput
-        defaultValue={currDetails?.postCode}
-        placeholder="Post code"
-        onChangeText={(text) => {
-          handleChange(text, 'postCode');
-        }}
-        style={styles.input}
-      />
-      <TextInput
-        defaultValue={currDetails?.email}
-        placeholder="Email"
-        onChangeText={(text) => {
-          handleChange(text, 'email');
-        }}
-        style={styles.input}
-      />
-      <TextInput
-        defaultValue={currDetails?.phoneNo}
-        placeholder="Phone Number"
-        onChangeText={(text) => {
-          handleChange(text, 'phoneNo');
-        }}
-        style={styles.input}
-      />
-      {/* change availability field to dropdown box */}
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <View style={styles.inputContainer}>
+        <TextInput
+          value={values?.companyName}
+          placeholder="Company Name"
+          onChangeText={(text) => {
+            handleChange(text, 'companyName');
+          }}
+          style={styles.input}
+        />
+        <TextInput
+          value={values?.name}
+          placeholder="Name"
+          onChangeText={(text) => {
+            handleChange(text, 'name');
+          }}
+          style={styles.input}
+        />
+        <TextInput
+          value={values?.postCode}
+          placeholder="Post code"
+          onChangeText={(text) => {
+            handleChange(text, 'postCode');
+          }}
+          style={styles.input}
+        />
+        <TextInput
+          value={values?.email}
+          placeholder="Email"
+          onChangeText={(text) => {
+            handleChange(text, 'email');
+          }}
+          style={styles.input}
+        />
+        <TextInput
+          value={values?.phoneNo}
+          placeholder="Phone Number"
+          onChangeText={(text) => {
+            handleChange(text, 'phoneNo');
+          }}
+          style={styles.input}
+        />
+        {/* change availability field to dropdown box */}
         <SelectBox
           label="Select job types"
           options={jobTypes}
@@ -186,7 +185,7 @@ const EditDetailsScreen = ({ route }) => {
           <Text style={styles.buttonOutlineText}>Save Details</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 export default EditDetailsScreen;
@@ -204,7 +203,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 10,
   },
   buttonContainer: {
     width: '60%',

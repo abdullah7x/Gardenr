@@ -41,10 +41,7 @@ const EditClient = () => {
     });
   };
 
-  console.log(currDetails, 'normal');
-
   const restoreDetails = () => {
-    console.log(currDetails, 'inside restore');
     setValues({ ...currDetails });
   };
 
