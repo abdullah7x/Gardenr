@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { auth } from '../firebase2';
 import { getAuth } from 'firebase/auth';
 
-const HomeScreen = ({ route }) => {
+const HomeScreen = () => {
   const navigation = useNavigation();
   const auth = getAuth();
-  const { paramKey } = route.params;
 
   const handleSignOut = () => {
     auth
@@ -26,6 +24,10 @@ const HomeScreen = ({ route }) => {
     navigation.navigate('Client Messages');
   };
 
+  const handleEdit = () => {
+    navigation.navigate('Edit Client');
+  };
+
   return (
     <View style={styles.container}>
       <Text>Email: {auth.currentUser.email}</Text>
@@ -35,6 +37,9 @@ const HomeScreen = ({ route }) => {
       </TouchableOpacity>
       <TouchableOpacity onPress={handleMessages} style={styles.button}>
         <Text style={styles.buttonText}>Messages</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleEdit} style={styles.button}>
+        <Text style={styles.buttonText}>Edit Details</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={handleSignOut}

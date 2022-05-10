@@ -18,6 +18,7 @@ import EditDetailsScreen from './screens/EditDetailsScreen';
 import MyMap from './screens/Map';
 import ClientMessages from './screens/ClientMessages';
 import { LogBox } from 'react-native';
+import EditClient from './screens/EditClient';
 
 LogBox.ignoreLogs(['Setting a timer for a long period of time']);
 
@@ -53,6 +54,7 @@ export default function App() {
         <Stack.Screen name="SingleGardener" component={SingleGardener} />
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="Map" component={MyMap} />
+        <Stack.Screen name="Edit Client" component={EditClient} />
       </Stack.Navigator>
     </NavigationContainer>
   );
