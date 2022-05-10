@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Modal,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase2';
@@ -18,13 +19,17 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 
+
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");
   //   const [password, setPassword] = useState("");
+
   const [values, setValues] = useState({
     email: '',
     password: '',
   });
+  
+  const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -90,11 +95,33 @@ const LoginScreen = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(error.message);
+        setModalVisible(true);
       });
   };
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Modal
+        style={styles.popup}
+        animationType="slide"
+        transparent={false}
+        presentationStyle="pageSheet"
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.container}>
+            <Text style={styles}>Invalid Login details, please try again</Text>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}> Ok </Text>
+            </TouchableOpacity>
+          </View>
+      </Modal>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <View style={styles.inputContainer}>
         <TextInput
@@ -178,4 +205,15 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
   },
+  // popUp: {
+  //   width: "50%",
+  //   height: "50%",
+  //   backgroundColor: "black",
+  //   display: 'flex',
+  // 	justifyContent: 'center',
+	//   alignItems: 'center',
+  // },
+  // popUpText: {
+
+  // },
 });
