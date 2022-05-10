@@ -8,7 +8,6 @@ import {
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { ScrollView } from 'react-native';
 import { TextInput, TouchableOpacity } from 'react-native';
-import { auth } from '../firebase2';
 import {
   addDoc,
   collection,

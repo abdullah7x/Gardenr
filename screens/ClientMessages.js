@@ -64,7 +64,7 @@ const ClientMessages = () => {
 
   if (loading)
     return (
-      <View style={styles.textcontainer}>
+      <View style={styles.container}>
         <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
     );

@@ -3,11 +3,13 @@ import { View, FlatList, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
-import { auth, db } from '../firebase2';
+import { db } from '../firebase2';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { TouchableOpacity } from 'react-native';
+import { getAuth } from 'firebase/auth';
 
 const GardenerMessages = () => {
+  const auth = getAuth();
   const currentUser = auth.currentUser.email;
   const [currentUserData, setCurrentUserData] = useState({});
   const [friends, setFriends] = useState([]);
