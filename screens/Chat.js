@@ -28,6 +28,7 @@ const Chat = ({ route }) => {
   let chatId;
   const auth = getAuth();
   useLayoutEffect(() => {
+    let unsubscribe;
     try {
       let q;
       if (isGardener) {
@@ -60,8 +61,7 @@ const Chat = ({ route }) => {
           ),
           orderBy('createdAt', 'desc')
         );
-
-        const unsubscribe = onSnapshot(q2, (snapshot2) =>
+        unsubscribe = onSnapshot(q2, (snapshot2) =>
           setMessages(
             snapshot2.docs.map((doc) => ({
               _id: doc.data()._id,
@@ -71,10 +71,10 @@ const Chat = ({ route }) => {
             }))
           )
         );
-        return () => {
-          unsubscribe();
-        };
       });
+      return () => {
+        unsubscribe();
+      };
     } catch (err) {
       console.log(err);
     }
