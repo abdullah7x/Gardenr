@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  ImageBackground,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase2';
@@ -99,56 +100,61 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <Modal
-        animationType="slide"
-        transparent={false}
-        presentationStyle="pageSheet"
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.container}>
-          <Text>Invalid Login details, please try again</Text>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/backgroundMulti.png')}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <Modal
+          animationType="slide"
+          transparent={false}
+          presentationStyle="pageSheet"
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.container}>
+            <Text>Invalid Login details, please try again</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.textStyle}> Ok </Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        <Image source={require('../assets/logo.png')} style={styles.logo} />
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="email"
+            autoCapitalize="none"
+            placeholderTextColor="grey"
+            onChangeText={(text) => handleChange(text, 'email')}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="password"
+            placeholderTextColor="grey"
+            onChangeText={(text) => handleChange(text, 'password')}
+            style={styles.input}
+            secureTextEntry
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={handleReg}
+            style={[styles.button, styles.buttonOutline]}
           >
-            <Text style={styles.textStyle}> Ok </Text>
+            <Text style={styles.buttonOutlineText}>Not yet registered?</Text>
           </TouchableOpacity>
         </View>
-      </Modal>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="email"
-          autoCapitalize="none"
-          placeholderTextColor="grey"
-          onChangeText={(text) => handleChange(text, 'email')}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="password"
-          placeholderTextColor="grey"
-          onChangeText={(text) => handleChange(text, 'password')}
-          style={styles.input}
-          secureTextEntry
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleReg}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Not yet registered?</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 

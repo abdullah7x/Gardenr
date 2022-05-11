@@ -1,6 +1,14 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { TextInput, TouchableOpacity } from 'react-native';
+
 import { auth, db } from '../firebase2';
 import {
   getAuth,
@@ -42,34 +50,39 @@ const SearchScreen = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Your postcode"
-          placeholderTextColor="grey"
-          onChangeText={(text) => handleChange(text)}
-          style={styles.input}
-        />
-      </View>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/TopLBottomR.png')}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Your postcode"
+            placeholderTextColor="grey"
+            onChangeText={(text) => handleChange(text)}
+            style={styles.input}
+          />
+        </View>
 
-      <View style={styles.inputContainer}>
-        <SelectBox
-          label="Select job types"
-          options={jobTypes}
-          selectedValues={selectedJobs}
-          onMultiSelect={onMultiChange()}
-          onTapClose={onMultiChange()}
-          isMulti
-          inputPlaceholder="Required"
-        />
-      </View>
+        <View style={styles.inputContainer}>
+          <SelectBox
+            label="Select job types"
+            options={jobTypes}
+            selectedValues={selectedJobs}
+            onMultiSelect={onMultiChange()}
+            onTapClose={onMultiChange()}
+            isMulti
+            inputPlaceholder="Required"
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleSearch} style={styles.button}>
-          <Text style={styles.buttonText}>Search</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleSearch} style={styles.button}>
+            <Text style={styles.buttonText}>Search</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 

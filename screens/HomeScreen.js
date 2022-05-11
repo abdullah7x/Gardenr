@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+} from 'react-native';
 import { getAuth } from 'firebase/auth';
 
 const HomeScreen = () => {
@@ -29,25 +35,30 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Email: {auth.currentUser.email}</Text>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/SmallTopBottom.png')}
+    >
+      <View style={styles.container}>
+        <Text>Email: {auth.currentUser.email}</Text>
 
-      <TouchableOpacity onPress={handleSearch} style={styles.button}>
-        <Text style={styles.buttonText}>Search</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleMessages} style={styles.button}>
-        <Text style={styles.buttonText}>Messages</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleEdit} style={styles.button}>
-        <Text style={styles.buttonText}>Edit Details</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={handleSignOut}
-        style={[styles.button, styles.buttonOutline]}
-      >
-        <Text style={styles.buttonOutlineText}>Sign out</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity onPress={handleSearch} style={styles.button}>
+          <Text style={styles.buttonText}>Search</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleMessages} style={styles.button}>
+          <Text style={styles.buttonText}>Messages</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleEdit} style={styles.button}>
+          <Text style={styles.buttonText}>Edit Details</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleSignOut}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Sign out</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
