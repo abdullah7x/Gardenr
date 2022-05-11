@@ -70,14 +70,15 @@ const ViewDetailsScreen = () => {
             organise a job, view a map of recent searches in your area, and edit
             your company details.
           </Text>
-          <TouchableOpacity onPress={navEditDetails} style={styles.button}>
-            <Text style={styles.buttonText}>Edit details</Text>
+          <TouchableOpacity onPress={handleMap} style={styles.button}>
+            <Text style={styles.buttonText}>Map</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={handleChat} style={styles.button}>
             <Text style={styles.buttonText}>Messages</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleMap} style={styles.button}>
-            <Text style={styles.buttonText}>Map</Text>
+
+          <TouchableOpacity onPress={navEditDetails} style={styles.button}>
+            <Text style={styles.buttonText}>Edit details</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={handleSignOut}
