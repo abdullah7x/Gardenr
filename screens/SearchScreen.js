@@ -42,6 +42,7 @@ const SearchScreen = (props) => {
   };
 
   const handleSearch = () => {
+    console.log(locationSearch, 'LOC SEARCH');
     navigation.navigate('SearchList', { locationSearch, selectedJobs });
   };
 
