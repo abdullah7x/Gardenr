@@ -5,20 +5,10 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Button,
   ImageBackground,
 } from 'react-native';
 import { db } from '../firebase2';
-import {
-  getDocs,
-  getDoc,
-  doc,
-  query,
-  where,
-  collection,
-  onSnapshot,
-  addDoc,
-} from 'firebase/firestore';
+import { getDocs, query, where, collection } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const ViewDetailsScreen = () => {

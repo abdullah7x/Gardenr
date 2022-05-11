@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { ActivityIndicator, Colors } from 'react-native-paper';

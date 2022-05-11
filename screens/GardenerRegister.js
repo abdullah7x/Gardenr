@@ -7,14 +7,10 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
-import { auth, db } from '../firebase2';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { db } from '../firebase2';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core';
-import { collection, addDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 import SelectBox from 'react-native-multi-selectbox';
 import { xorBy } from 'lodash';
 import getLatLong from '../functions/getLatLong';

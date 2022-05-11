@@ -1,31 +1,12 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Picker,
-  ImageBackground,
-} from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import React, { useEffect, useState } from 'react';
-import { TextInput, TouchableOpacity } from 'react-native';
-import { auth, db } from '../firebase2';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import {
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  doc,
-} from 'firebase/firestore';
+import { TouchableOpacity } from 'react-native';
+import { db } from '../firebase2';
+
+import { collection, getDocs, query } from 'firebase/firestore';
 import { ScrollView } from 'react-native';
-import { Dialog, Portal } from 'react-native-paper';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Avatar, Card, Title, Paragraph } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/core';
 import getLatLong from '../functions/getLatLong';
 import getDistance from '../functions/getDistance';
