@@ -19,7 +19,6 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 
-
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");
   //   const [password, setPassword] = useState("");
@@ -28,7 +27,7 @@ const LoginScreen = () => {
     email: '',
     password: '',
   });
-  
+
   const [modalVisible, setModalVisible] = useState(false);
 
   const navigation = useNavigation();
@@ -107,19 +106,19 @@ const LoginScreen = () => {
         presentationStyle="pageSheet"
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
+          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}
       >
         <View style={styles.container}>
-            <Text>Invalid Login details, please try again</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}> Ok </Text>
-            </TouchableOpacity>
-          </View>
+          <Text>Invalid Login details, please try again</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <Text style={styles.textStyle}> Ok </Text>
+          </TouchableOpacity>
+        </View>
       </Modal>
       <Image source={require('../assets/logo.png')} style={styles.logo} />
       <View style={styles.inputContainer}>

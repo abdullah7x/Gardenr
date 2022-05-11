@@ -22,6 +22,7 @@ import { db } from '../firebase2';
 import { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 const SingleGardener = ({ route }) => {
   const { gardener } = route.params;
@@ -35,6 +36,7 @@ const SingleGardener = ({ route }) => {
   const [gardenerData, setGardenerData] = useState({});
   const [chatData, setChatData] = useState({});
   const [chatId, setChatId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const navigation = useNavigation();
 
@@ -74,11 +76,9 @@ const SingleGardener = ({ route }) => {
     getDocs(gardenerRef).then((snapshot) => {
       setGardenerId(snapshot.docs[0]._key.path.segments[6]);
       setGardenerData(snapshot.docs[0].data());
+      setLoading(false);
     });
   }, []);
-
-  let gardenerJobsArr;
-  let gardenerJobs;
 
   // useEffect(() => {
   //   console.log(gardenerData);
@@ -172,45 +172,58 @@ const SingleGardener = ({ route }) => {
   //     </TouchableOpacity>
   //   </View>
   // );
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.top}>
-        <Text
-          style={{
-            // color: '#821752',
-            fontWeight: '700',
-            fontSize: 30,
-            fontFamily: 'TamilSangamMN-Bold',
-            letterSpacing: 4,
-          }}
-        >
-          {gardenerData.companyName}
-        </Text>
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
-      <View style={styles.image}>
-        <Image source={require('../assets/cover-logo.png')} />
-      </View>
-      <View style={styles.middleTop}>
-        <Text style={styles.subtitleText}>Company Details</Text>
-        <Text style={styles.middleText}>Owner: {gardenerData.name}</Text>
-        {/* <Text style={styles.middleText}>Available for: {gardenerJobs}</Text> */}
-        <Text style={styles.middleText}>
-          Post Code: {gardenerData.postCode}
-        </Text>
-        <Text style={styles.middleText}>Phone: {gardenerData.phoneNo}</Text>
-        <Text style={styles.middleText}>Email: {gardenerData.email}</Text>
-      </View>
-
-      <View style={styles.bottom}>
-        <TouchableOpacity onPress={handleMessage} style={styles.msgButton}>
-          <Text style={{ color: 'white', fontWeight: '700', fontSize: 16 }}>
-            Message
+    );
+  } else {
+    console.log(gardenerData.selectedJobs);
+    const gardenerJobsArr = gardenerData.selectedJobs.map((job) => {
+      return job.item;
+    });
+    const gardenerJobs = gardenerJobsArr.join(', ');
+    console.log(gardenerJobs);
+    return (
+      <View style={styles.container}>
+        <View style={styles.top}>
+          <Text
+            style={{
+              // color: '#821752',
+              fontWeight: '700',
+              fontSize: 30,
+              // fontFamily: 'TamilSangamMN-Bold',
+              letterSpacing: 4,
+            }}
+          >
+            {gardenerData.companyName}
           </Text>
-        </TouchableOpacity>
+        </View>
+        <View style={styles.image}>
+          <Image source={require('../assets/cover-logo.png')} />
+        </View>
+        <View style={styles.middleTop}>
+          <Text style={styles.subtitleText}>Company Details</Text>
+          <Text style={styles.middleText}>Owner: {gardenerData.name}</Text>
+          <Text style={styles.middleText}>Available for: {gardenerJobs}</Text>
+          <Text style={styles.middleText}>
+            Post Code: {gardenerData.postCode}
+          </Text>
+          <Text style={styles.middleText}>Phone: {gardenerData.phoneNo}</Text>
+          <Text style={styles.middleText}>Email: {gardenerData.email}</Text>
+        </View>
+
+        <View style={styles.bottom}>
+          <TouchableOpacity onPress={handleMessage} style={styles.msgButton}>
+            <Text style={{ color: 'white', fontWeight: '700', fontSize: 16 }}>
+              Message
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 };
 
 export default SingleGardener;
