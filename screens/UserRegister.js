@@ -6,7 +6,7 @@ import {
   Alert,
 } from 'react-native';
 import React, { useState } from 'react';
-import { TextInput, TouchableOpacity } from 'react-native';
+import { TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { db } from '../firebase2';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core';
@@ -88,48 +88,53 @@ const UserRegister = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="email"
-          placeholderTextColor="grey"
-          autoCapitalize="none"
-          onChangeText={(text) => handleChange(text, 'email')}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="password"
-          placeholderTextColor="grey"
-          onChangeText={(text) => handleChange(text, 'password')}
-          style={styles.input}
-          secureTextEntry
-        />
-        <TextInput
-          placeholder="name"
-          placeholderTextColor="grey"
-          onChangeText={(text) => {
-            handleChange(text, 'name');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="phone number"
-          placeholderTextColor="grey"
-          onChangeText={(text) => {
-            handleChange(text, 'phoneNo');
-          }}
-          style={styles.input}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/SmallMultiTop.png')}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="email"
+            placeholderTextColor="grey"
+            autoCapitalize="none"
+            onChangeText={(text) => handleChange(text, 'email')}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="password"
+            placeholderTextColor="grey"
+            onChangeText={(text) => handleChange(text, 'password')}
+            style={styles.input}
+            secureTextEntry
+          />
+          <TextInput
+            placeholder="name"
+            placeholderTextColor="grey"
+            onChangeText={(text) => {
+              handleChange(text, 'name');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="phone number"
+            placeholderTextColor="grey"
+            onChangeText={(text) => {
+              handleChange(text, 'phoneNo');
+            }}
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={handleSignUp}
+            style={[styles.button, styles.buttonOutline]}
+          >
+            <Text style={styles.buttonOutlineText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 

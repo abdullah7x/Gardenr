@@ -4,6 +4,7 @@ import {
   View,
   KeyboardAvoidingView,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
@@ -156,92 +157,97 @@ const GardenerRegister = () => {
   // };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="email"
-          autoCapitalize="none"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => handleChange(text, 'email')}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="password"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => handleChange(text, 'password')}
-          style={styles.input}
-          secureTextEntry
-        />
-        <TextInput
-          placeholder="name"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'name');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="company"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'companyName');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="post code"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'postCode');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="phone number"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'phoneNo');
-          }}
-          style={styles.input}
-        />
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/SmallMultiTop.png')}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="email"
+            autoCapitalize="none"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => handleChange(text, 'email')}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="password"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => handleChange(text, 'password')}
+            style={styles.input}
+            secureTextEntry
+          />
+          <TextInput
+            placeholder="name"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'name');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="company"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'companyName');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="post code"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'postCode');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="phone number"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'phoneNo');
+            }}
+            style={styles.input}
+          />
 
-        <SelectBox
-          label="Job types"
-          options={jobTypesList}
-          selectedValues={selectedJobs}
-          onMultiSelect={onMultiChange()}
-          onTapClose={onMultiChange()}
-          isMulti
-          labelStyle={{
-            marginTop: 20,
-            backgroundColor: 'white',
-            borderRadius: 3,
-            padding: 5,
-          }}
-          containerStyle={{
-            backgroundColor: 'white',
-            borderRadius: 3,
-            padding: 5,
-            color: 'green',
-          }}
-          selectedItemStyle={{ backgroundColor: 'green' }}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+          <SelectBox
+            label="Job types"
+            options={jobTypesList}
+            selectedValues={selectedJobs}
+            onMultiSelect={onMultiChange()}
+            onTapClose={onMultiChange()}
+            isMulti
+            labelStyle={{
+              marginTop: 20,
+              backgroundColor: 'white',
+              borderRadius: 3,
+              padding: 5,
+            }}
+            containerStyle={{
+              backgroundColor: 'white',
+              borderRadius: 3,
+              padding: 5,
+              color: 'green',
+            }}
+            selectedItemStyle={{ backgroundColor: 'green' }}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={handleSignUp}
+            style={[styles.button, styles.buttonOutline]}
+          >
+            <Text style={styles.buttonOutlineText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
