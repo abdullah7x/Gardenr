@@ -52,11 +52,11 @@ const HomeScreen = () => {
   };
 
   const handleMessages = () => {
-    navigation.navigate('Client Messages');
+    navigation.navigate('Messages');
   };
 
   const handleEdit = () => {
-    navigation.navigate('Edit Client');
+    navigation.navigate('Edit Profile');
   };
 
   if (loading) {

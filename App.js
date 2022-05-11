@@ -33,12 +33,12 @@ export default function App() {
           name="Login"
           component={LoginScreen}
         />
-        <Stack.Screen name="RegisterButtons" component={RegisterButtons} />
+        <Stack.Screen name="Register" component={RegisterButtons} />
         <Stack.Screen name="Search" component={SearchScreen} />
-        <Stack.Screen name="SearchList" component={SearchList} />
+        <Stack.Screen name="Search Results" component={SearchList} />
         <Stack.Screen name="Gardener Register" component={GardenerRegister} />
-        <Stack.Screen name="User Register" component={UserRegister} />
-        <Stack.Screen name="Client Messages" component={ClientMessages} />
+        <Stack.Screen name="Client Register" component={UserRegister} />
+        <Stack.Screen name="Messages" component={ClientMessages} />
         <Stack.Screen
           options={{ headerShown: false }}
           name="Gardener Home"
@@ -49,12 +49,12 @@ export default function App() {
           name="Client Home"
           component={HomeScreen}
         />
-        <Stack.Screen name="GardenerMessages" component={GardenerMessages} />
-        <Stack.Screen name="EditDetails" component={EditDetailsScreen} />
+        <Stack.Screen name="Conversations" component={GardenerMessages} />
+        <Stack.Screen name="Edit Details" component={EditDetailsScreen} />
         <Stack.Screen name="SingleGardener" component={SingleGardener} />
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="Map" component={MyMap} />
-        <Stack.Screen name="Edit Client" component={EditClient} />
+        <Stack.Screen name="Edit Profile" component={EditClient} />
       </Stack.Navigator>
     </NavigationContainer>
   );

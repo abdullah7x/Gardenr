@@ -76,7 +76,6 @@ const ClientMessages = () => {
             item.id;
           }}
           data={friendsData.map((friend) => {
-            
             return {
               name: friend.name ? friend.name : friend.email,
               id: friend.email,
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderBottomColor: 'green',
     borderStyle: 'solid',
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 2,
     backgroundColor: 'white',
   },
   nameText: {
@@ -131,6 +130,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   companyText: {
-    color: 'grey'
-  }
+    color: 'grey',
+  },
 });

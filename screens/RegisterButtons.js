@@ -7,7 +7,7 @@ const RegisterButtons = () => {
   const navigation = useNavigation();
 
   const handleClientReg = () => {
-    navigation.navigate('User Register');
+    navigation.navigate('Client Register');
   };
   const handleGardenerReg = () => {
     navigation.navigate('Gardener Register');

@@ -85,7 +85,7 @@ const GardenerMessages = () => {
               onPress={() => handleChat(item.id)}
               style={styles.item}
             >
-              <Text>{item.name}</Text>
+              <Text style={styles.nameText}>{item.name}</Text>
             </TouchableOpacity>
           )}
         />
@@ -113,13 +113,17 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
   },
+  nameText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   item: {
     padding: 10,
     fontSize: 18,
     height: 50,
     borderBottomColor: 'green',
     borderStyle: 'solid',
-    borderBottomWidth: 1.5,
+    borderBottomWidth: 2,
     backgroundColor: 'white',
   },
 });

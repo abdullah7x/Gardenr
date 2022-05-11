@@ -71,7 +71,7 @@ const LoginScreen = () => {
   }, []);
 
   const handleReg = () => {
-    navigation.navigate('RegisterButtons');
+    navigation.navigate('Register');
   };
 
   const handleChange = (text, event) => {

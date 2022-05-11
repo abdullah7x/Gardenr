@@ -38,7 +38,7 @@ const SearchScreen = () => {
   const handleSearch = async () => {
     const result = await getLatLong(locationSearch);
     if (result !== undefined && selectedJobs.length) {
-      navigation.navigate('SearchList', { locationSearch, selectedJobs });
+      navigation.navigate('Search Results', { locationSearch, selectedJobs });
     } else if (result === undefined) {
       Alert.alert('Error', 'Please enter a valid post code');
     } else if (!selectedJobs.length) {

@@ -19,7 +19,7 @@ const ViewDetailsScreen = () => {
   const [loading, setLoading] = useState(true);
 
   const handleChat = () => {
-    navigation.navigate('GardenerMessages');
+    navigation.navigate('Conversations');
   };
 
   const handleMap = () => {
@@ -27,7 +27,7 @@ const ViewDetailsScreen = () => {
   };
 
   const navEditDetails = () => {
-    navigation.navigate('EditDetails');
+    navigation.navigate('Edit Details');
   };
 
   const colRef = collection(db, 'gardeners');
