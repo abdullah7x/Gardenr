@@ -1,14 +1,6 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Picker,
-  Image,
-} from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
-import { ScrollView } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+
+import { TouchableOpacity } from 'react-native';
 import {
   addDoc,
   collection,
@@ -26,7 +18,7 @@ import { ActivityIndicator, Colors } from 'react-native-paper';
 
 const SingleGardener = ({ route }) => {
   const { gardener } = route.params;
-  const LeftContent = (props) => <Avatar.Icon {...props} icon="flower" />;
+
   const auth = getAuth();
   const currentUser = auth.currentUser.email;
 
@@ -79,13 +71,6 @@ const SingleGardener = ({ route }) => {
       setLoading(false);
     });
   }, []);
-
-  // useEffect(() => {
-  //   console.log(gardenerData);
-  //   gardenerJobsArr = gardenerData.selectedJobs.map((job) => {
-  //     gardenerJobs = gardenerJobsArr.join(', ');
-  //   });
-  // }, [gardenerData]);
 
   const handleMessage = async () => {
     // add gardener to clients friends
@@ -146,32 +131,6 @@ const SingleGardener = ({ route }) => {
     }
   };
 
-  // return (
-  //   <View style={styles.container}>
-  //     <Card>
-  //       <Card.Title title={gardenerData.companyName} left={LeftContent} />
-  //       <Card.Cover source={require('../assets/cover-logo.png')} />
-  //       <Card.Content>
-  //         <Paragraph />
-  //         <Paragraph>{gardenerData.email}</Paragraph>
-  //       </Card.Content>
-
-  //       <Card.Actions>
-  //         <TouchableOpacity onPress={handleMessage} style={styles.button}>
-  //           <Text style={styles.buttonText}>Message</Text>
-  //         </TouchableOpacity>
-  //       </Card.Actions>
-  //     </Card>
-  //   </View>
-  // );
-
-  // return (
-  //   <View style={{ height: '100%' }}>
-  //     <TouchableOpacity onPress={handleMessage} style={styles.button}>
-  //       <Text style={styles.buttonText}>Message</Text>
-  //     </TouchableOpacity>
-  //   </View>
-  // );
   if (loading) {
     return (
       <View style={styles.container}>
@@ -190,10 +149,9 @@ const SingleGardener = ({ route }) => {
         <View style={styles.top}>
           <Text
             style={{
-              // color: '#821752',
               fontWeight: '700',
               fontSize: 30,
-              // fontFamily: 'TamilSangamMN-Bold',
+
               letterSpacing: 4,
             }}
           >
@@ -239,7 +197,6 @@ const styles = StyleSheet.create({
     flex: 0.1,
     backgroundColor: 'white',
     borderBottomWidth: 5,
-    // borderTopWidth: 4,
 
     borderRadius: 80,
     borderColor: '#008002',
@@ -252,7 +209,7 @@ const styles = StyleSheet.create({
   },
   middleTop: {
     flex: 0.45,
-    // alignItems: 'center',
+
     justifyContent: 'center',
 
     borderTopWidth: 5,
@@ -260,16 +217,13 @@ const styles = StyleSheet.create({
     borderColor: '#008002',
     marginRight: 20,
     marginLeft: 20,
-
-    // backgroundColor: 'beige',
   },
   middleBottom: {
     flex: 0.2,
-    // alignItems: 'center',
+
     justifyContent: 'center',
     marginRight: 20,
     marginLeft: 20,
-    // backgroundColor: 'beige',
   },
   middleText: {
     fontWeight: '200',
@@ -286,6 +240,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 10,
   },
+  msgButton: {
+    backgroundColor: 'green',
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
   bottom: {
     flex: 0.1,
     justifyContent: 'center',
@@ -300,60 +261,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-// const styles = StyleSheet.create({
-//   container: {
-//     height: '100%',
-//   },
-//   coverImg: {
-//     height: '500',
-//     width: '500',
-//   },
-//   inputContainer: {
-//     marginBottom: 0,
-//     marginVertical: 0,
-//   },
-//   paraBlock: {
-//     backgroundColor: 'white',
-//     paddingVertical: 20,
-//   },
-//   input: {
-//     backgroundColor: 'white',
-//     paddingHorizontal: 15,
-//     paddingVertical: 10,
-//     borderRadius: 10,
-//     marginTop: 5,
-//   },
-//   buttonContainer: {
-//     width: '60%',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     marginTop: 40,
-//   },
-//   button: {
-//         marginBottom: 0,
-//     backgroundColor: 'green',
-//     width: '100%',
-//     padding: 15,
-//     borderRadius: 10,
-//     alignItems: 'center',
-//   },
-//   buttonText: {
-//     color: 'white',
-//     fontWeight: '700',
-//     fontSize: 16,
-//   },
-//   buttonOutline: {
-//     backgroundColor: 'white',
-//     marginTop: 5,
-//     borderColor: 'green',
-//     borderWidth: 2,
-//     justifyContent: 'flex-end',
-//     alignItems: 'center',
-//   },
-//   buttonOutlineText: {
-//     color: 'green',
-//     fontWeight: '700',
-//     fontSize: 16,
-//   },
-// });
