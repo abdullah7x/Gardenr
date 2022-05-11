@@ -4,6 +4,7 @@ import {
   View,
   KeyboardAvoidingView,
   Picker,
+  ImageBackground,
 } from 'react-native';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 import React, { useEffect, useState } from 'react';
@@ -115,30 +116,35 @@ const SearchList = ({ route }) => {
                 mode={'outlined'}
                 style={styles.inputContainer}
               >
-                <Card.Title
-                  title={doc.companyName}
-                  subtitle={`${distanceToUser} miles away`}
-                  left={LeftContent}
-                />
-                <Card.Content>
-                  <Title
-                    style={styles.subtitleText}
-                  >{`Matches ${doc.searchMatches} / ${clientJobs} of your job needs`}</Title>
-                  <Paragraph></Paragraph>
-                </Card.Content>
-                <Card.Cover
+                <ImageBackground
+                  style={{ flex: 1 }}
+                  source={require('../assets/backgroundMulti.png')}
+                >
+                  <Card.Title
+                    title={doc.companyName}
+                    subtitle={`${distanceToUser} miles away`}
+                    left={LeftContent}
+                  />
+                  <Card.Content>
+                    <Title
+                      style={styles.subtitleText}
+                    >{`Matches ${doc.searchMatches} / ${clientJobs} of your job needs`}</Title>
+                    <Paragraph></Paragraph>
+                  </Card.Content>
+                  {/* <Card.Cover
                   source={{
                     uri: 'https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg',
                   }}
-                />
-                <Card.Actions>
-                  <TouchableOpacity
-                    onPress={() => handleClick(reverseArr[index])}
-                    style={[styles.button, styles.buttonOutline]}
-                  >
-                    <Text style={styles.buttonOutlineText}>View</Text>
-                  </TouchableOpacity>
-                </Card.Actions>
+                /> */}
+                  <Card.Actions>
+                    <TouchableOpacity
+                      onPress={() => handleClick(reverseArr[index])}
+                      style={[styles.button, styles.buttonOutline]}
+                    >
+                      <Text style={styles.buttonOutlineText}>View</Text>
+                    </TouchableOpacity>
+                  </Card.Actions>
+                </ImageBackground>
               </Card>
             );
           })}
