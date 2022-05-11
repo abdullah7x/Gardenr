@@ -50,6 +50,7 @@ const SearchScreen = (props) => {
     } else {
       Alert.alert('Error', 'Please enter a valid post code');
     }
+  };
 
   const onMultiChange = () => {
     return (value) => setSelectedJobs(xorBy(selectedJobs, [value], 'id'));
