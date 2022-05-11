@@ -174,7 +174,7 @@ const SingleGardener = ({ route }) => {
 
         <View style={styles.bottom}>
           <TouchableOpacity onPress={handleMessage} style={styles.msgButton}>
-            <Text style={{ color: 'white', fontWeight: '700', fontSize: 16 }}>
+            <Text style={{ color: 'white', fontWeight: '700', fontSize: 20 }}>
               Message
             </Text>
           </TouchableOpacity>

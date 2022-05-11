@@ -49,32 +49,37 @@ const ViewDetailsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Company Name: {currDetails?.companyName}</Text>
-      <Text>Name: {currDetails?.name}</Text>
-      <Text>Location: {currDetails?.postCode}</Text>
-      <Text>Email: {currDetails?.email}</Text>
-      <Text>Phone number: {currDetails?.phoneNo}</Text>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/SmallTopBottom.png')}
+    >
+      <View style={styles.container}>
+        <Text>Company Name: {currDetails?.companyName}</Text>
+        <Text>Name: {currDetails?.name}</Text>
+        <Text>Location: {currDetails?.postCode}</Text>
+        <Text>Email: {currDetails?.email}</Text>
+        <Text>Phone number: {currDetails?.phoneNo}</Text>
 
-      <TouchableOpacity onPress={navEditDetails} style={styles.button}>
-        <Text style={styles.buttonText}>Edit details</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={navEditDetails} style={styles.button}>
+          <Text style={styles.buttonText}>Edit details</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleChat} style={styles.button}>
-        <Text style={styles.buttonText}>Chat</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={handleChat} style={styles.button}>
+          <Text style={styles.buttonText}>Messages</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleMap} style={styles.button}>
-        <Text style={styles.buttonText}>Map</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={handleMap} style={styles.button}>
+          <Text style={styles.buttonText}>Map</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity
-        onPress={handleSignOut}
-        style={[styles.button, styles.buttonOutline]}
-      >
-        <Text style={styles.buttonOutlineText}>Sign Out</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          onPress={handleSignOut}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonOutlineText}>Sign Out</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 export default ViewDetailsScreen;

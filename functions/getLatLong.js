@@ -11,7 +11,7 @@ const getLatLong = async (postcode) => {
       console.log(location);
       return location;
     })
-    .catch((error) => console.warn(error));
+    .catch((error) => console.log(error));
 };
 
 export default getLatLong;

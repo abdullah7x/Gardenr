@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Alert,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
 import { auth, db, app } from '../firebase2';
@@ -37,36 +43,52 @@ const UserRegister = () => {
   const handleSignUp = () => {
     const { email, password, phoneNo, name, isGardener, friends } = values;
     const auth = getAuth();
-    //Create Auth user w email and password
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user, 'NEW USER');
+    if (email && password && phoneNo && name) {
+      console.log('creating');
+      //Create Auth user w email and password
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user, 'NEW USER');
 
-        // ...
-        //Create DB user with more details
-        {
-          try {
-            addDoc(collection(db, 'clients'), {
-              email,
-              password,
-              phoneNo,
-              isGardener,
-              name,
-              friends,
-            });
-            navigation.navigate('Client Home', { paramKey: values.email });
-          } catch (e) {
-            console.error('Error adding document: ', e);
+          // ...
+          //Create DB user with more details
+          {
+            try {
+              addDoc(collection(db, 'clients'), {
+                email,
+                password,
+                phoneNo,
+                isGardener,
+                name,
+                friends,
+              });
+              navigation.navigate('Client Home', { paramKey: values.email });
+            } catch (e) {
+              console.error('Error adding document: ', e);
+            }
           }
-        }
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+
+          if (errorCode === 'auth/weak-password') {
+            Alert.alert('Error', 'Password should be at least 6 characters');
+          }
+          if (errorCode === 'auth/invalid-email') {
+            Alert.alert('Error', 'Please enter a valid email');
+          }
+          if (errorCode === 'auth/email-already-in-use') {
+            Alert.alert(
+              'Error',
+              'Sorry, a user with that email already exists'
+            );
+          }
+          console.log(errorCode, errorMessage);
+        });
+    } else Alert.alert('Error', 'Please complete all fields');
   };
 
   return (

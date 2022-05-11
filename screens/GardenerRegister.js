@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Alert,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase2';
@@ -65,47 +71,78 @@ const GardenerRegister = () => {
       companyName,
       friends,
     } = values;
-    let latLong;
-    getLatLong(postCode)
-      .then((result) => {
-        latLong = result;
-      })
-      .then(() => {
-        const auth = getAuth();
-        //Create Auth user w email and password
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
+    if (
+      email &&
+      password &&
+      phoneNo &&
+      name &&
+      postCode &&
+      companyName &&
+      selectedJobs
+    ) {
+      let latLong;
+      getLatLong(postCode)
+        .then((result) => {
+          latLong = result;
+        })
+        .then(() => {
+          const auth = getAuth();
+          //Create Auth user w email and password
+          if (latLong !== undefined) {
+            createUserWithEmailAndPassword(auth, email, password)
+              .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
 
-            // ...
-            //Create DB user with more details
-            {
-              try {
-                addDoc(collection(db, 'gardeners'), {
-                  email,
-                  password,
-                  phoneNo,
-                  isGardener,
-                  name,
-                  postCode,
-                  companyName,
-                  friends,
-                  selectedJobs,
-                  latLong,
-                });
-                navigation.navigate('Gardener Home');
-              } catch (e) {
-                console.error('Error adding document: ', e);
-              }
-            }
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-          });
-      });
+                // ...
+                //Create DB user with more details
+                {
+                  try {
+                    addDoc(collection(db, 'gardeners'), {
+                      email,
+                      password,
+                      phoneNo,
+                      isGardener,
+                      name,
+                      postCode,
+                      companyName,
+                      friends,
+                      selectedJobs,
+                      latLong,
+                    });
+                    navigation.navigate('Gardener Home');
+                  } catch (e) {
+                    console.error('Error adding document: ', e);
+                  }
+                }
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+                if (errorCode === 'auth/weak-password') {
+                  Alert.alert(
+                    'Error',
+                    'Password should be at least 6 characters'
+                  );
+                }
+                if (errorCode === 'auth/invalid-email') {
+                  Alert.alert('Error', 'Please enter a valid email');
+                }
+                if (errorCode === 'auth/email-already-in-use') {
+                  Alert.alert(
+                    'Error',
+                    'Sorry, a user with that email already exists'
+                  );
+                }
+              });
+          } else {
+            Alert.alert('Error', 'Please enter a valid postcode');
+          }
+        });
+    } else {
+      Alert.alert('Error', 'Please complete all fields');
+    }
   };
 
   const onMultiChange = () => {
