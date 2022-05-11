@@ -76,9 +76,11 @@ const ClientMessages = () => {
             item.id;
           }}
           data={friendsData.map((friend) => {
+            
             return {
               name: friend.name ? friend.name : friend.email,
               id: friend.email,
+              companyName: friend.companyName,
             };
           })}
           renderItem={({ item }) => (
@@ -86,7 +88,8 @@ const ClientMessages = () => {
               onPress={() => handleChat(item.id)}
               style={styles.item}
             >
-              <Text>{item.name}</Text>
+              <Text style={styles.nameText}>{item.name}</Text>
+              <Text style={styles.companyText}>{item.companyName}</Text>
             </TouchableOpacity>
           )}
         />
@@ -117,10 +120,17 @@ const styles = StyleSheet.create({
   item: {
     padding: 10,
     fontSize: 18,
-    height: 50,
+    height: 60,
     borderBottomColor: 'green',
     borderStyle: 'solid',
     borderBottomWidth: 1.5,
     backgroundColor: 'white',
   },
+  nameText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  companyText: {
+    color: 'grey'
+  }
 });
