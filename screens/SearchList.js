@@ -120,9 +120,9 @@ const SearchList = ({ route }) => {
                   <Card.Actions>
                     <TouchableOpacity
                       onPress={() => handleClick(reverseArr[index])}
-                      style={[styles.button, styles.buttonOutline]}
+                      style={styles.button}
                     >
-                      <Text style={styles.buttonOutlineText}>View</Text>
+                      <Text style={styles.buttonText}>View</Text>
                     </TouchableOpacity>
                   </Card.Actions>
                 </ImageBackground>
