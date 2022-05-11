@@ -228,14 +228,14 @@ const styles = StyleSheet.create({
   middleText: {
     fontWeight: '200',
     fontSize: 22,
-    fontFamily: 'TamilSangamMN-Bold',
+
     marginTop: 8,
   },
 
   subtitleText: {
     fontWeight: '500',
     fontSize: 28,
-    fontFamily: 'TamilSangamMN-Bold',
+
     textDecorationStyle: 'solid',
     marginBottom: 10,
     marginTop: 10,

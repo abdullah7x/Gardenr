@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
+  ImageBackground,
 } from 'react-native';
 import { db } from '../firebase2';
 import { collection, getDocs, query, where } from 'firebase/firestore';
@@ -66,53 +67,58 @@ const EditClient = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={values?.name ? values?.name : ''}
-          placeholder="Name"
-          autoCapitalize="none"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'name');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          value={values?.email ? values?.email : ''}
-          placeholder="Email"
-          autoCapitalize="none"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'email');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          value={values?.phoneNo ? values?.phoneNo : ''}
-          placeholder="Phone Number"
-          placeholderTextColor="grey"
-          selectionColor="green"
-          onChangeText={(text) => {
-            handleChange(text, 'phoneNo');
-          }}
-          style={styles.input}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={restoreDetails} style={styles.button}>
-          <Text style={styles.buttonText}>Restore Details</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleUpdate}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Save Details</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/BigBottomLeft.png')}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={values?.name ? values?.name : ''}
+            placeholder="Name"
+            autoCapitalize="none"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'name');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            value={values?.email ? values?.email : ''}
+            placeholder="Email"
+            autoCapitalize="none"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'email');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            value={values?.phoneNo ? values?.phoneNo : ''}
+            placeholder="Phone Number"
+            placeholderTextColor="grey"
+            selectionColor="green"
+            onChangeText={(text) => {
+              handleChange(text, 'phoneNo');
+            }}
+            style={styles.input}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={restoreDetails} style={styles.button}>
+            <Text style={styles.buttonText}>Restore Details</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleUpdate}
+            style={[styles.button, styles.buttonOutline]}
+          >
+            <Text style={styles.buttonOutlineText}>Save Details</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
