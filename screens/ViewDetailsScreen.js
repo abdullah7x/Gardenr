@@ -10,11 +10,13 @@ import {
 import { db } from '../firebase2';
 import { getDocs, query, where, collection } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { ActivityIndicator, Colors } from 'react-native-paper';
 
 const ViewDetailsScreen = () => {
   const [currDetails, setCurrDetails] = useState({});
   const auth = getAuth();
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(true);
 
   const handleChat = () => {
     navigation.navigate('GardenerMessages');
@@ -33,6 +35,7 @@ const ViewDetailsScreen = () => {
   useEffect(() => {
     getDocs(q).then((snapshot) => {
       setCurrDetails({ ...snapshot.docs[0].data(), id: snapshot.docs[0].id });
+      setLoading(false);
     });
   }, []);
 
@@ -45,39 +48,47 @@ const ViewDetailsScreen = () => {
       .catch((error) => alert(error.message));
   };
 
-  return (
-    <ImageBackground
-      style={{ flex: 1 }}
-      source={require('../assets/SmallTopBottom.png')}
-    >
+  if (loading) {
+    return (
       <View style={styles.container}>
-        <Text>Company Name: {currDetails?.companyName}</Text>
-        <Text>Name: {currDetails?.name}</Text>
-        <Text>Location: {currDetails?.postCode}</Text>
-        <Text>Email: {currDetails?.email}</Text>
-        <Text>Phone number: {currDetails?.phoneNo}</Text>
-
-        <TouchableOpacity onPress={navEditDetails} style={styles.button}>
-          <Text style={styles.buttonText}>Edit details</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleChat} style={styles.button}>
-          <Text style={styles.buttonText}>Messages</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleMap} style={styles.button}>
-          <Text style={styles.buttonText}>Map</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={handleSignOut}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Sign Out</Text>
-        </TouchableOpacity>
+        <ActivityIndicator animating={true} color={Colors.green200} />
       </View>
-    </ImageBackground>
-  );
+    );
+  } else {
+    const nameArr = currDetails?.name.split(' ');
+    const firstName = nameArr[0];
+    return (
+      <ImageBackground
+        style={{ flex: 1 }}
+        source={require('../assets/SmallTopBottom.png')}
+      >
+        <View style={styles.container}>
+          <Text style={styles.welcomeText}>Hello {firstName}!</Text>
+          <Text style={styles.greenText}>Welcome to Gardenr.</Text>
+          <Text style={styles.subText}>
+            Here you can send and view messages with potential clients to
+            organise a job, view a map of recent searches in your area, and edit
+            your company details.
+          </Text>
+          <TouchableOpacity onPress={navEditDetails} style={styles.button}>
+            <Text style={styles.buttonText}>Edit details</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleChat} style={styles.button}>
+            <Text style={styles.buttonText}>Messages</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleMap} style={styles.button}>
+            <Text style={styles.buttonText}>Map</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleSignOut}
+            style={[styles.button, styles.buttonOutline]}
+          >
+            <Text style={styles.buttonOutlineText}>Sign Out</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    );
+  }
 };
 export default ViewDetailsScreen;
 const styles = StyleSheet.create({
@@ -98,6 +109,24 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  subText: {
+    fontSize: 16,
+    marginTop: 10,
+    maxWidth: '80%',
+    textAlign: 'center',
+  },
+  greenText: {
+    fontSize: 16,
+    marginTop: 10,
+    maxWidth: '80%',
+    textAlign: 'center',
+    color: 'green',
+    fontWeight: 'bold',
   },
   Text: {
     color: 'black',
