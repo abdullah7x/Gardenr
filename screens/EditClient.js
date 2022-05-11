@@ -69,7 +69,7 @@ const EditClient = () => {
   return (
     <ImageBackground
       style={{ flex: 1 }}
-      source={require('../assets/BigBottomLeft.png')}
+      source={require('../assets/TopRBottomL.png')}
     >
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.inputContainer}>

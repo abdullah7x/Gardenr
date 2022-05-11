@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   KeyboardAvoidingView,
+  ImageBackground,
 } from 'react-native';
 import SelectBox from 'react-native-multi-selectbox';
 import { db } from '../firebase2';
@@ -105,85 +106,90 @@ const EditDetailsScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={values?.companyName}
-          placeholder="Company Name"
-          onChangeText={(text) => {
-            handleChange(text, 'companyName');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          value={values?.name}
-          placeholder="Name"
-          onChangeText={(text) => {
-            handleChange(text, 'name');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          value={values?.postCode}
-          placeholder="Post code"
-          onChangeText={(text) => {
-            handleChange(text, 'postCode');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          value={values?.email}
-          placeholder="Email"
-          onChangeText={(text) => {
-            handleChange(text, 'email');
-          }}
-          style={styles.input}
-        />
-        <TextInput
-          value={values?.phoneNo}
-          placeholder="Phone Number"
-          onChangeText={(text) => {
-            handleChange(text, 'phoneNo');
-          }}
-          style={styles.input}
-        />
-        {/* change availability field to dropdown box */}
-        <SelectBox
-          label="Select job types"
-          options={jobTypes}
-          selectedValues={selectedJobs}
-          onMultiSelect={onMultiChange()}
-          onTapClose={onMultiChange()}
-          isMulti
-          inputPlaceholder="Required"
-          labelStyle={{
-            marginTop: 20,
-            backgroundColor: 'white',
-            borderRadius: 3,
-            padding: 5,
-          }}
-          containerStyle={{
-            backgroundColor: 'white',
-            borderRadius: 3,
-            padding: 5,
-            color: 'green',
-          }}
-          selectedItemStyle={{ backgroundColor: 'green' }}
-        />
-      </View>
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={require('../assets/TopLBottomR.png')}
+    >
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.inputContainer}>
+          <TextInput
+            value={values?.companyName}
+            placeholder="Company Name"
+            onChangeText={(text) => {
+              handleChange(text, 'companyName');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            value={values?.name}
+            placeholder="Name"
+            onChangeText={(text) => {
+              handleChange(text, 'name');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            value={values?.postCode}
+            placeholder="Post code"
+            onChangeText={(text) => {
+              handleChange(text, 'postCode');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            value={values?.email}
+            placeholder="Email"
+            onChangeText={(text) => {
+              handleChange(text, 'email');
+            }}
+            style={styles.input}
+          />
+          <TextInput
+            value={values?.phoneNo}
+            placeholder="Phone Number"
+            onChangeText={(text) => {
+              handleChange(text, 'phoneNo');
+            }}
+            style={styles.input}
+          />
+          {/* change availability field to dropdown box */}
+          <SelectBox
+            label="Select job types"
+            options={jobTypes}
+            selectedValues={selectedJobs}
+            onMultiSelect={onMultiChange()}
+            onTapClose={onMultiChange()}
+            isMulti
+            inputPlaceholder="Required"
+            labelStyle={{
+              marginTop: 20,
+              backgroundColor: 'white',
+              borderRadius: 3,
+              padding: 5,
+            }}
+            containerStyle={{
+              backgroundColor: 'white',
+              borderRadius: 3,
+              padding: 5,
+              color: 'green',
+            }}
+            selectedItemStyle={{ backgroundColor: 'green' }}
+          />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={restoreDetails} style={styles.button}>
-          <Text style={styles.buttonText}>Restore Details</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleUpdate}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Save Details</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={restoreDetails} style={styles.button}>
+            <Text style={styles.buttonText}>Restore Details</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleUpdate}
+            style={[styles.button, styles.buttonOutline]}
+          >
+            <Text style={styles.buttonOutlineText}>Save Details</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 export default EditDetailsScreen;
