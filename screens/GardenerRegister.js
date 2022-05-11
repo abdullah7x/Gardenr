@@ -74,7 +74,7 @@ const GardenerRegister = () => {
       name &&
       postCode &&
       companyName &&
-      selectedJobs
+      selectedJobs.length
     ) {
       let latLong;
       getLatLong(postCode)
