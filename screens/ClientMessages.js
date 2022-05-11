@@ -44,13 +44,14 @@ const ClientMessages = () => {
           );
           getDocs(q2).then((snapshot) => {
             console.log(snapshot.docs[0].data());
-            setLoading(false);
+
             setFriendsData((currFriends) => [
               snapshot.docs[0].data(),
               ...currFriends,
             ]);
           });
         });
+        setLoading(false);
       } else setLoading(false);
     });
   }, []);

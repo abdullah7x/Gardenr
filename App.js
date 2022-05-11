@@ -36,8 +36,16 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterButtons} />
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="Search Results" component={SearchList} />
-        <Stack.Screen name="Gardener Register" component={GardenerRegister} />
-        <Stack.Screen name="Client Register" component={UserRegister} />
+        <Stack.Screen
+          name="Gardener Register"
+          component={GardenerRegister}
+          options={{ title: 'Register' }}
+        />
+        <Stack.Screen
+          name="Client Register"
+          component={UserRegister}
+          options={{ title: 'Register' }}
+        />
         <Stack.Screen name="Messages" component={ClientMessages} />
         <Stack.Screen
           options={{ headerShown: false }}
@@ -49,12 +57,20 @@ export default function App() {
           name="Client Home"
           component={HomeScreen}
         />
-        <Stack.Screen name="Conversations" component={GardenerMessages} />
+        <Stack.Screen
+          name="Conversations"
+          component={GardenerMessages}
+          options={{ title: 'Messages' }}
+        />
         <Stack.Screen name="Edit Details" component={EditDetailsScreen} />
         <Stack.Screen name="SingleGardener" component={SingleGardener} />
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="Map" component={MyMap} />
-        <Stack.Screen name="Edit Profile" component={EditClient} />
+        <Stack.Screen
+          name="Edit Profile"
+          component={EditClient}
+          options={{ title: 'Edit Details' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
