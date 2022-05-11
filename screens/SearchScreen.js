@@ -6,6 +6,7 @@ import {
   ImageBackground,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
@@ -19,6 +20,7 @@ import { useNavigation } from '@react-navigation/core';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 import SelectBox from 'react-native-multi-selectbox';
 import { xorBy } from 'lodash';
+import getLatLong from '../functions/getLatLong';
 
 const SearchScreen = (props) => {
   const [locationSearch, setLocationSearch] = useState('');
@@ -41,8 +43,13 @@ const SearchScreen = (props) => {
     setLocationSearch(searchValue);
   };
 
-  const handleSearch = () => {
-    navigation.navigate('SearchList', { locationSearch, selectedJobs });
+  const handleSearch = async () => {
+    const result = await getLatLong(locationSearch);
+    if (result !== undefined) {
+      navigation.navigate('SearchList', { locationSearch, selectedJobs });
+    } else {
+      Alert.alert('Error', 'Please enter a valid post code');
+    }
   };
 
   const onMultiChange = () => {
