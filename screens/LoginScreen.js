@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Modal,
   Alert,
   ImageBackground,
 } from 'react-native';
@@ -14,12 +13,11 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../firebase2';
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
 } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core';
-import { collection, addDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const LoginScreen = () => {
   //   const [email, setEmail] = useState("");

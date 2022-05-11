@@ -5,16 +5,12 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
-import { auth, db, app } from '../firebase2';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { db } from '../firebase2';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/core';
-import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 
 const UserRegister = () => {
   const [values, setValues] = useState({

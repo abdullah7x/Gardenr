@@ -8,21 +8,13 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-
-import { auth, db } from '../firebase2';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
 import SelectBox from 'react-native-multi-selectbox';
 import { xorBy } from 'lodash';
 import getLatLong from '../functions/getLatLong';
 
-const SearchScreen = (props) => {
+const SearchScreen = () => {
   const [locationSearch, setLocationSearch] = useState('');
   const [selectedJobs, setSelectedJobs] = useState([]);
   const jobTypes = [
@@ -45,10 +37,12 @@ const SearchScreen = (props) => {
 
   const handleSearch = async () => {
     const result = await getLatLong(locationSearch);
-    if (result !== undefined) {
+    if (result !== undefined && selectedJobs.length) {
       navigation.navigate('SearchList', { locationSearch, selectedJobs });
-    } else {
+    } else if (result === undefined) {
       Alert.alert('Error', 'Please enter a valid post code');
+    } else if (!selectedJobs.length) {
+      Alert.alert('Error', 'Please select at least one job type');
     }
   };
 

@@ -2,7 +2,7 @@ const axios = require('axios');
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import { auth, db } from '../firebase2';
+import { db } from '../firebase2';
 import { getDocs, query, where, collection } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
