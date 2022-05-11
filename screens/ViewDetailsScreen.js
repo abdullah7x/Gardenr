@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Button,
+  ImageBackground,
+} from 'react-native';
 import { db } from '../firebase2';
 import {
   getDocs,
