@@ -63,7 +63,11 @@ export default function App() {
           options={{ title: 'Messages' }}
         />
         <Stack.Screen name="Edit Details" component={EditDetailsScreen} />
-        <Stack.Screen name="SingleGardener" component={SingleGardener} />
+        <Stack.Screen
+          options={{ title: 'Profile' }}
+          name="SingleGardener"
+          component={SingleGardener}
+        />
         <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="Map" component={MyMap} />
         <Stack.Screen
