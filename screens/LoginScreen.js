@@ -20,9 +20,6 @@ import { useNavigation } from '@react-navigation/core';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 const LoginScreen = () => {
-  //   const [email, setEmail] = useState("");
-  //   const [password, setPassword] = useState("");
-
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -34,17 +31,12 @@ const LoginScreen = () => {
     const auth = getAuth();
     try {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log(user, 'IS A USER');
-        // console.log(user.auth.currentUser.email);
         if (user) {
-          console.log(user.auth.currentUser.email);
-          console.log('INSIDE HERE');
           const q = query(
             collection(db, 'gardeners'),
             where('email', '==', user.auth.currentUser.email)
           );
           getDocs(q).then((snapshot) => {
-            console.log(snapshot.docs[0], 'SNAP1');
             if (snapshot.docs.length === 1) {
               navigation.navigate('Gardener Home');
             } else {
@@ -53,15 +45,12 @@ const LoginScreen = () => {
                 where('email', '==', user.auth.currentUser.email)
               );
               getDocs(q2).then((snap) => {
-                console.log(snapshot.docs[0], 'SNAP2');
                 if (snap.docs.length === 1) {
                   navigation.navigate('Client Home');
                 }
               });
             }
           });
-
-          // navigation.navigate("Home");
         }
       });
       return unsubscribe;
@@ -84,10 +73,7 @@ const LoginScreen = () => {
     const { email, password } = values;
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
-      .then((credentials) => {
-        const user = credentials.user;
-        console.log(user, 'IN HANDLE LOGIN');
-      })
+      .then((credentials) => {})
       .catch((error) => {
         console.log(error.message);
         Alert.alert('Error', 'Invalid login details, please try again');

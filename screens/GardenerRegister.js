@@ -6,7 +6,7 @@ import {
   Alert,
   ImageBackground,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native';
 import { db } from '../firebase2';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
@@ -54,8 +54,6 @@ const GardenerRegister = () => {
       });
     }
   };
-
-  useEffect(() => {}, []);
 
   const handleSignUp = () => {
     const {
@@ -145,16 +143,8 @@ const GardenerRegister = () => {
   const onMultiChange = () => {
     return (value) => {
       setSelectedJobs(xorBy(selectedJobs, [value], 'id'));
-      // handleChange(selectedJobs, 'jobTypes');
     };
   };
-
-  // const setJobsToValues = () => {
-  //   setValues((prev) => {
-  //     console.log(values.jobTypes, 'JOBS');
-  //     return { prev, jobTypes: selectedJobs };
-  //   });
-  // };
 
   return (
     <ImageBackground

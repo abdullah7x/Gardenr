@@ -36,13 +36,17 @@ const SearchScreen = () => {
   };
 
   const handleSearch = async () => {
-    const result = await getLatLong(locationSearch);
-    if (result !== undefined && selectedJobs.length) {
-      navigation.navigate('Search Results', { locationSearch, selectedJobs });
-    } else if (result === undefined) {
-      Alert.alert('Error', 'Please enter a valid post code');
-    } else if (!selectedJobs.length) {
-      Alert.alert('Error', 'Please select at least one job type');
+    if (!locationSearch) {
+      Alert.alert('Error', 'Please enter a postcode');
+    } else {
+      const result = await getLatLong(locationSearch);
+      if (result !== undefined && selectedJobs.length) {
+        navigation.navigate('Search Results', { locationSearch, selectedJobs });
+      } else if (result === undefined) {
+        Alert.alert('Error', 'Please enter a valid post code');
+      } else if (!selectedJobs.length) {
+        Alert.alert('Error', 'Please select at least one job type');
+      }
     }
   };
 

@@ -43,8 +43,6 @@ const ClientMessages = () => {
             where('email', '==', friend)
           );
           getDocs(q2).then((snapshot) => {
-            console.log(snapshot.docs[0].data());
-
             setFriendsData((currFriends) => [
               snapshot.docs[0].data(),
               ...currFriends,

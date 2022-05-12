@@ -40,15 +40,11 @@ const UserRegister = () => {
     const { email, password, phoneNo, name, isGardener, friends } = values;
     const auth = getAuth();
     if (email && password && phoneNo && name) {
-      console.log('creating');
       //Create Auth user w email and password
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user, 'NEW USER');
-
-          // ...
           //Create DB user with more details
           {
             try {

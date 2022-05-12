@@ -8,16 +8,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { getAuth } from 'firebase/auth';
-import {
-  getDocs,
-  getDoc,
-  doc,
-  query,
-  where,
-  collection,
-  onSnapshot,
-  addDoc,
-} from 'firebase/firestore';
+import { getDocs, query, where, collection } from 'firebase/firestore';
 import { db } from '../firebase2';
 import { ActivityIndicator, Colors } from 'react-native-paper';
 
@@ -27,8 +18,6 @@ const HomeScreen = () => {
   const [currDetails, setCurrDetails] = useState({});
   const [loading, setLoading] = useState(true);
 
-  let firstArr;
-  let firstName = 'User';
   const colRef = collection(db, 'clients');
   const q = query(colRef, where('email', '==', auth.currentUser.email));
   useEffect(() => {

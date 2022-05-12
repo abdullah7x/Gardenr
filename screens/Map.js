@@ -34,8 +34,6 @@ const MyMap = () => {
     return deg * (Math.PI / 180);
   }
 
-  console.log(gardCoords, 'COORDS test');
-
   function latLonDistanceMiles(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2 - lat1);
@@ -52,9 +50,6 @@ const MyMap = () => {
     const milesDistance = d * 0.621371;
     return milesDistance.toFixed(2);
   }
-
-  // const test = latLonDistanceMiles(53.4808, -2.2426, 53.501, -2.2421 )
-  // console.log(test)
 
   return (
     <View style={styles.container}>

@@ -56,7 +56,6 @@ const EditDetailsScreen = () => {
   const onMultiChange = () => {
     return (value) => {
       setSelectedJobs(xorBy(selectedJobs, [value], 'id'));
-      // handleChange(selectedJobs, 'jobTypes');
     };
   };
 
@@ -152,7 +151,7 @@ const EditDetailsScreen = () => {
             }}
             style={styles.input}
           />
-          {/* change availability field to dropdown box */}
+
           <SelectBox
             label="Select job types"
             options={jobTypes}

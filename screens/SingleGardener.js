@@ -138,12 +138,10 @@ const SingleGardener = ({ route }) => {
       </View>
     );
   } else {
-    console.log(gardenerData.selectedJobs);
     const gardenerJobsArr = gardenerData.selectedJobs.map((job) => {
       return job.item;
     });
     const gardenerJobs = gardenerJobsArr.join(', ');
-    console.log(gardenerJobs);
     return (
       <View style={styles.container}>
         <View style={styles.top}>

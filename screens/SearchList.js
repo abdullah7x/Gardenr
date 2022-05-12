@@ -16,13 +16,10 @@ const lodash = require('lodash');
 const SearchList = ({ route }) => {
   const [primaryLocation, setPrimaryLocation] = useState({});
   const [docList, setDocList] = useState([]);
-  const [latLong, setLatLong] = useState({});
   const [loading, setLoading] = useState(true);
   const { locationSearch, selectedJobs } = route.params;
   const searchJobs = selectedJobs;
 
-  const searchRef = collection(db, 'gardeners');
-  const q = query(searchRef);
   const navigation = useNavigation();
   const handleClick = (gardener) => {
     navigation.navigate('SingleGardener', { gardener });
@@ -83,7 +80,6 @@ const SearchList = ({ route }) => {
         <View style={styles.container}>
           {reverseArr.map((doc, index) => {
             const gardenerLocation = doc.latLong;
-            console.log(gardenerLocation.lat, 'PL');
             const distanceToUser = getDistance(
               primaryLocation.lat,
               primaryLocation.lng,
@@ -112,11 +108,7 @@ const SearchList = ({ route }) => {
                     >{`Matches ${doc.searchMatches} / ${clientJobs} of your job needs`}</Title>
                     <Paragraph></Paragraph>
                   </Card.Content>
-                  {/* <Card.Cover
-                  source={{
-                    uri: 'https://thumbs.dreamstime.com/b/sunken-garden-10630510.jpg',
-                  }}
-                /> */}
+
                   <Card.Actions>
                     <TouchableOpacity
                       onPress={() => handleClick(reverseArr[index])}
