@@ -2,7 +2,22 @@
 
 ## Background
 
-Tom's blurb
+### Welcome to Gardenr.
+
+Gardenr is a mobile app designed to connect gardening businesses with prospective clients via a simple user interface. With separate sophisticated user journeys, clients are able to find local Gardenrs who have signed up to the app via a simple search function, based on location and job types, which are matched according to highest relevancy. They can then use the messaging feature to chat in real time with their selected Gardenr to organise a job.
+
+Gardenr was created in response to the increasing popularity for gardening in the UK over the past few years – accelerated by the pandemic - with people across the country looking to get outdoors more.
+
+In addition, the app allowed the Node Survivors team to experiment and implement some fascinating frameworks and new tech, from no-SQL backend services (FireStore, Firebase Auth) to real-time messaging (Gifted Chat) to map functionality (Google Maps API and Geocoding Extension) and even designing our own logo and themes.
+
+Check out the video to find out more.
+
+Gardenr was designed and created by:
+ Cam Lindsay | https://github.com/CamCode9
+ Abdullah Ahmed | https://github.com/abdullah7x
+ Kamahl Haider | https://github.com/Kamz1991
+ Tom Johnson | https://github.com/tomjohnson1
+ Kavi Parmar | https://github.com/Kavi246
 
 ## Cloning the repo
 
