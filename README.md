@@ -13,11 +13,14 @@ In addition, the app allowed the Node Survivors team to experiment and implement
 Check out the video to find out more.
 
 Gardenr was designed and created by:
- Cam Lindsay | https://github.com/CamCode9
- Abdullah Ahmed | https://github.com/abdullah7x
- Kamahl Haider | https://github.com/Kamz1991
- Tom Johnson | https://github.com/tomjohnson1
- Kavi Parmar | https://github.com/Kavi246
+
+- Cam Lindsay | https://github.com/CamCode9
+- Abdullah Ahmed | https://github.com/abdullah7x
+- Kamahl Haider | https://github.com/Kamz1991
+- Tom Johnson | https://github.com/tomjohnson1
+- Kavi Parmar | https://github.com/Kavi246
+
+## Demo
 
 ## Cloning the repo
 
