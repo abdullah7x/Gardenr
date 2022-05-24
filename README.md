@@ -22,6 +22,8 @@ Gardenr was designed and created by:
 
 ## Demo
 
+Coming soon!
+
 ## Cloning the repo
 
 In order to clone the repo you will firstly need to fork it to your GitHub. You can then copy the clone link in the forked repo, type git clone in your terminal and then paste the clone link in like this:
