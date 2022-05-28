@@ -60,7 +60,8 @@ export { db, geoKey, app };
 
 In the making of this project the following dependencies were used:
 
-- Firebase
+- Firebase Auth
+- Firebase Firestore
 - Lodash
 - Expo
 - Axios
