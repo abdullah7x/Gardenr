@@ -22,7 +22,7 @@ Gardenr was designed and created by:
 
 ## Demo
 
-Coming soon!
+[Here](https://northcoders.com/projects/may-2022/gardenr) is a demonstartion of the app.
 
 ## Cloning the repo
 
